@@ -6,7 +6,7 @@ const changeFocus1 = () => {
     document.getElementById("p2").focus();
   }
 
-}
+};
 
 const changeFocus2 = () => {
 
@@ -16,4 +16,4 @@ const changeFocus2 = () => {
     document.getElementById("p3").focus();
   }
 
-}
+};

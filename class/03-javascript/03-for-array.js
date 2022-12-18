@@ -10,7 +10,6 @@ const fruits = [
   {number: 9, title: "과일선물세트"},
   {number: 10, title: "귤"},
 ];
-// undefined
 
 for (let i = 0; i < fruits.length; i++) {
     console.log(fruits[i].number + " " + fruits[i].title);
@@ -25,7 +24,6 @@ for (let i = 0; i < fruits.length; i++) {
 // VM5483:2 8 천혜향
 // VM5483:2 9 과일선물세트
 // VM5483:2 10 귤
-// undefined
 
 for (let i = 0; i < fruits.length; i++) {
     console.log(`${fruits[i].number} ${fruits[i].title}`);
@@ -40,7 +38,6 @@ for (let i = 0; i < fruits.length; i++) {
 // VM5562:2 8 천혜향
 // VM5562:2 9 과일선물세트
 // VM5562:2 10 귤
-// undefined
 
 for (let i = 0; i < fruits.length; i++) {
     console.log(`과일 차트 ${fruits[i].number}위는 ${fruits[i].title}입니다`);
@@ -55,4 +52,3 @@ for (let i = 0; i < fruits.length; i++) {
 // VM5642:2 과일 차트 8위는 천혜향입니다
 // VM5642:2 과일 차트 9위는 과일선물세트입니다
 // VM5642:2 과일 차트 10위는 귤입니다
-// undefined
