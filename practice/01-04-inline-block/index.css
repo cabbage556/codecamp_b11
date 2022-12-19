@@ -1,0 +1,20 @@
+.block-container {
+  border: 3px solid blue;
+}
+
+.inline-container {
+  border: 3px solid red;
+}
+
+.block-container div {
+  border: 3px solid green;
+  /* inline 요소의 경우 width, height 속성이 적용되지 않음 */
+  width: 400px;
+  display: inline;
+}
+
+.inline-container span {
+  background-color: red;
+  width: 400px;
+  display: block;
+}

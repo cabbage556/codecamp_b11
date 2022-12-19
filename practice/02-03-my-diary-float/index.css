@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background-color: #eeeeee;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0px;
+}
+
+.wrapper {
+  width: 620px;
+  padding: 40px 30px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.wrapper__head {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px dashed gray;
+}
+
+.wrapper__head__title {
+  font-size: 32px;
+  background-color: orange;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.wrapper__head__sub-title {
+  font-size: 18px;
+  padding: 10px 0;
+}
+
+#point {
+  color: orange;
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin-top: 15px;
+  display: block;
+}
+
+.wrapper__body {
+  border: 1px solid #dddddd;
+  padding: 20px 30px;
+}
+
+.diary-title {
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #f4f4f4;
+  margin-bottom: 20px;
+}
+
+.kimchi {
+  color: red;
+  font-weight: 600;
+}
+
+.egg {
+  color: orange;
+  font-weight: 600;
+}
+
+.highlight {
+  color: blue;
+  font-size: 22px;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.diary-date {
+  color: #919191;
+  font-size: 14px;
+  text-align: right;
+}
+
+.header {
+  border-bottom: 1px solid gray;
+}
+
+.header-inner {
+  width: 900px;
+  height: 100%;
+
+  /* 가운데 정렬 */
+  margin: 0 auto;
+}
+
+.logo {
+  /* background-color: red; */
+  float: left;
+  width: 100px;
+  height: 80px;
+  padding-top: 22px;
+}
+
+.logo h1 a {
+  text-decoration: none;
+  color: orange;
+}
+
+.menu {
+  /* background-color: blue; */
+  float: left;
+  width: calc(100% - 200px);
+  height: 80px;
+  text-align: center;
+}
+
+.menu__ul {
+  /* inline-block: 인라인처럼 text-align 같은 속성은 적용할 수 있지만 동시에 block 요소처럼 세로값이나 가로값을 지정할 수 있는 요소로 변경됨 */
+  display: inline-block;
+}
+
+.menu__ul li {
+  float: left;
+  list-style: none;
+}
+
+.menu__ul li a {
+  display: block;
+  color: black;
+  text-decoration: none;
+  padding: 29px 20px;
+}
+
+.menu__ul li a:hover {
+  color: orange;
+}
+
+.user {
+  /* background-color: green; */
+  float: left;
+  width: 100px;
+  height: 80px;
+  padding-top: 23px;
+}
+
+.clearfix {
+  clear: both;
+}
