@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  /* 상속 */
+  color: blue;
+  font-size: 40px;
+
+  /* 상속되지 않음 */
+  border: 4px solid orange;
+}
+
+.inner-box {
+  /* container 클래스 상속 덮어쓰기 */
+  color: red;
+}
