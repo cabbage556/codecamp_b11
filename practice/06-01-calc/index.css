@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+.box {
+  border: 1px solid red;
+  margin-bottom: 40px;
+  padding: 30px;
+}
+
+.text {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/* calc() 덧셈식에서 공백이 없으면 에러가 발생하므로 적용되지 않음 */
+.item1 {
+  background-color: red;
+  width: calc(30px + 50%);
+  height: 50px;
+}
+
+/* calc() 뺄셈식에서 공백이 없으면 에러가 발생하므로 적용되지 않음 */
+.item2 {
+  background-color: green;
+  width: calc(100% - 70px);
+  height: 50px;
+}
+
+.item3 {
+  background-color: blue;
+  width: calc(3*20px);
+  height: 50px;
+}
+
+.item4 {
+  background-color: yellow;
+  width: calc(100%/4);
+  height: 50px;
+}
