@@ -1,0 +1,140 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.wrapper {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.wrapper__head {
+  width: 100%;
+  background-color: #d2d2d2;
+  font-weight: 600;
+  text-align: center;
+}
+
+i.fa-heart {
+  color: red;
+  animation: heartbeat 1s ease-in-out infinite alternate;
+}
+
+@keyframes heartbeat {
+  0% {
+    font-size: 24px;
+  }
+  50% {
+    font-size: 36px;
+  }
+  100% {
+    font-size: 24px;
+  }
+}
+
+i.fa-star {
+  color: orange;
+  font-size: 24px;
+  animation: rotatingStar 1s linear infinite alternate;
+}
+
+@keyframes rotatingStar {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.wrapper__body3 {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mouse-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mouse {
+  width: 20px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 10px;
+  position: relative;
+}
+
+.mouseUp {
+  animation: mouseUp 1s ease-in-out infinite alternate;
+}
+
+.mouseWheel {
+  width: 1px;
+  height: 4px;
+  border: 1px solid black;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.wheelUp {
+  animation: wheelUp 1s linear infinite alternate;
+}
+
+@keyframes mouseUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes wheelUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
+
+.wrapper__body4 {
+  text-align: center;
+}
+
+.wrapper__body4:after {
+  content: "Loading";
+  display: block;
+  margin-top: 5px;
+}
+
+i.fa-arrow-rotate-right {
+  font-size: 24px;
+  animation: rotatingArrow 1s linear infinite normal;
+}
+
+@keyframes rotatingArrow {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
