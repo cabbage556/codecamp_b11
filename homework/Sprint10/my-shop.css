@@ -1,0 +1,358 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.mainBanner {
+  height: 250px;
+  background-image: url("../img/banner.jpg");
+  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mainBanner h1 {
+  margin: 0;
+}
+
+.bannerText {
+  font-weight: 700;
+  font-size: 42px;
+  color: white;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  animation: moveBanner 1s ease-in-out 1 normal;
+}
+
+@keyframes moveBanner {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  90% {
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.wrapper {
+  max-width: 1439px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 20px;
+}
+
+.sidebar {
+  width: 200px;
+}
+
+.mainMenu {
+  background-color: orange;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.mainMenu ul {
+  padding: 0 10px;
+}
+
+.mainMenu ul li {
+  list-style: none;
+  padding: 5px;
+}
+
+.mainMenu ul li a {
+  display: block;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  padding: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btnBox {
+
+}
+
+.writeBtn {
+  width: 100%;
+  background-color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+  text-align: left;
+  font-size: 18px;
+  padding: 10px 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.writeBtn span {
+  padding-left: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.itemWrap {
+  width: calc(100% - 200px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding-left: 15px;
+}
+
+.item {
+  width: calc(25% -  7px);
+  /* 박스 비율 설정: 가로 / 세로 */
+  aspect-ratio: 6 / 5;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.imgBox {
+  width: 100%;
+  height: 100%;
+}
+
+.imgBox img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.textBox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 20px;
+  z-index: 3;
+}
+
+.textBox p {
+  color: white;
+  margin: 5px 0 0;
+}
+
+.textBox__name {
+  font-size: 22px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.textBox__price {
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.item:after {
+  content: "";
+  display: block;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+}
+
+.item:after,
+.item .imgBox img,
+.item .textBox__name {
+  transition: all 0.4s ease-in-out;
+}
+
+.item .textBox__price {
+  transition: all 0.4s ease-in-out 0.1s;
+}
+
+/* PC 레이아웃 애니메이션 적용 */
+/* PC breakPoint: 1024px ~ */
+@media screen and (min-width: 1024px) {
+  .mainMenu ul li a:hover {
+    background-color: rgb(255, 145, 0);
+    padding-left: 15px;
+  }
+
+  .writeBtn:hover {
+    color: black;
+    background-color: white;
+  }
+  
+  .writeBtn:hover span {
+    padding-left: 20px;
+  }
+
+  .item:hover:after {
+    opacity: 1;
+  }
+  
+  .item:hover .imgBox img {
+    transform: scale(1.1);
+    filter: blur(3px);
+  }
+  
+  .item:hover .textBox__name {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .item:hover .textBox__price {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 태블릿 반응형 레이아웃 */
+/* 태블릿 breakPoint: 768px ~ 1023px */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .item {
+    width: calc(50% -  7px);
+    overflow: visible;
+  }
+
+  .textBox {
+    height: auto;
+    position: relative;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+  
+  .textBox p {
+    color: black;
+  }
+  
+  .textBox__name {
+    font-size: 18px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .textBox__price {
+    font-size: 14px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 모바일 반응형 레이아웃 */
+/* 모바일 breakPoint: 0 ~ 767px */
+@media screen and (max-width: 767px) {
+  .mainBanner {
+    height: 200px;
+    margin-bottom: 0;
+  }
+
+  .bannerText {
+    font-size: 32px;
+  }
+
+  .wrapper {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .mainMenu {
+    border-radius: 0;
+    padding: 5px 0;
+  }
+
+  .mainMenu ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+
+  .mainMenu ul li a {
+    font-size: 14px;
+  }
+
+  .writeBtn {
+    display: none;
+  }
+
+  .itemWrap {
+    width: 100%;
+    padding-right: 15px;
+  }
+
+  .item {
+    width: calc(50% -  7px);
+    overflow: visible;
+  }
+
+  .textBox {
+    height: auto;
+    position: relative;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+  
+  .textBox p {
+    color: black;
+  }
+  
+  .textBox__name {
+    font-size: 16px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .textBox__price {
+    font-size: 12px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

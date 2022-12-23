@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  border: 2px solid red;
+  display: grid;
+  grid-template-columns: 200px repeat(3, 1fr);
+  grid-template-rows: 1fr 2fr;
+
+  /* 그리드 아이템이 차지하는 공간을 그리드 셀이라고 하는데, 그리드 셀의 가장자리에 약간의 공백을 만드는 속성 */
+  /* IE에서 동작하지 않음 */
+  grid-gap: 5px;
+}
+
+.item {
+  border: 2px solid blue;
+}
+
+.item1 {
+  background-color: green;
+  grid-column: 1 / 4;
+  grid-row: 2 / 3;
+
+  /* 1번 라인부터 시작해서 2개의 공간 차지 */
+  /* grid-column: 1 / span 2; */
+  /* 1번 라인부터 시작해서 4개의 공간 차지 */
+  /* grid-row: 1 / span 4; */
+}
