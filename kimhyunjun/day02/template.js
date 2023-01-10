@@ -7,25 +7,26 @@ function checkEmail(email) {
   }
 } 
 
-function getWelcomeTemplate({ name, email, registrationNumber, phoneNumber, favoriteSite }) {
+function result (num) {
+  const masking = num.split("-")[1].split("")[0] + "*".repeat(6)
+  const maskingNumber = num.split("-")[0] + "-" + masking
+  return maskingNumber
+}
+
+function getWelcomeTemplate({ name, email, maskingResult, phoneNumber, favoriteSite }) {
   const myTemplate = `
     <html>
       <body>
         <h1>${name}님 가입을 환영합니다!!!</h1>
         <hr />
         <div>이메일 : ${email}</div>
-        <div>주민번호 : ${registrationNumber}</div>
+        <div>주민번호 : ${maskingResult}</div>
         <div>휴대폰 번호 : ${phoneNumber}</div>
         <div>내가 좋아하는 사이트 : ${favoriteSite}</div>
       </body>
     </html>
   `
   return myTemplate
-}
-
-function result (registrationNumber) {
-  const masking = registrationNumber.split("-")[1].split("")[0] + "*".repeat(6)
-  console.log(registrationNumber.split("-")[0] + "-" + masking)
 }
 
 function sendTemplateToEmail(email, myTemplate) {
@@ -36,8 +37,11 @@ function createUser({ name, email, registrationNumber, phoneNumber, favoriteSite
   // 1. 이메일이 정상인지 검증하기(1-존재여부, 2-"@"" 포함여부)
   const isValid = checkEmail(email)
   if(isValid === false) return
+
+  const maskingResult = result(registrationNumber)
+
   // 2. 가입환영 템플릿 만들기
-  const welcomeTemplate = getWelcomeTemplate( {name, email, registrationNumber, phoneNumber, favoriteSite} )
+  const welcomeTemplate = getWelcomeTemplate( {name, email, maskingResult, phoneNumber, favoriteSite} )
 
   // 3. 이메일에 가입환영 템플릿 전송하기
   sendTemplateToEmail(email, welcomeTemplate)
@@ -46,7 +50,7 @@ function createUser({ name, email, registrationNumber, phoneNumber, favoriteSite
 
 const name = "코드캠프"
 const email = "support@codebootcamp.co.kr"
-const registrationNumber = "210510-1******"
+const registrationNumber = "210510-1010101"
 const phoneNumber = "000-0000-0000"
 const favoriteSite = "codebootcamp.co.kr"
 
