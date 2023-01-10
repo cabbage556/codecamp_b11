@@ -8,7 +8,7 @@ function getToday() {
   const seconds = ("0" + today.getSeconds()).slice(-2)
 
 
-  return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}:${seconds}입니다. `
+  return `오늘은 ${year}년 ${month}월 ${day}일 ${hours}:${minutes}:${seconds}입니다. `
 }
 
 console.log(getToday());
