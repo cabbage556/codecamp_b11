@@ -1,6 +1,6 @@
 import {checkStar} from "./checkSter.js"
 checkStar
-export function getWelcomeTemplate({name, email, number, phoneNumber, homePage}){
+export function getWelcomeTemplate({name, email, number, phoneNumber, homePage}){ 
   const mytemplate = `
   <html>
       <body>

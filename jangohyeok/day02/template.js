@@ -1,7 +1,7 @@
 import {getWelcomeTemplate, send} from "./function.js"
 
 function createUser({name, email, number, phoneNumber, homePage}){
-  
+   
   const mytemplate = getWelcomeTemplate({name, email, number, phoneNumber, homePage})
 
   send(mytemplate)
