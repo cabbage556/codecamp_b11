@@ -1,32 +1,26 @@
-import {
-  checkEmail,
-  makingBlur,
-  makingTemplate,
-  sendWelcomeTemplateToEmail,
-} from "./utils.js";
 
-function createUser({ email, resisterNumber, phoneNumber, loveSite }) {
-  //   console.log(email);
-  //1.이메일이 정상인지 확인(1-존재 여부,2-"@"포함여부)
-  const isValid = checkEmail({ email });
-  if (isValid === false) return;
-  //2. 주민번호 블러처리
-  const getNumber = makingBlur({ resisterNumber });
+import { getToday } from "./date.js"
 
-  //3.가입환영 템플릿 만들기
-  const getTemplate = makingTemplate({
-    email,
-    getNumber,
-    phoneNumber,
-    loveSite,
-  });
-  //4.이메일에 가입환영 템플릿 전송하기
-  sendWelcomeTemplateToEmail(email, getTemplate); ///이부분복습
+function welcomeUser({name, email, ssNd, phoneNb, site}) {
+    const mytemplate = `
+    <html>
+        <body>
+            <h1>${name}님 가입을 환영합니다</h1>
+            <hr />
+            <div>이메일 : ${email}</div>
+            <div>주민번호 : ${ssNd}</div>
+            <div>휴대폰번호 : ${phoneNb}</div>
+            <div>내가 좋아하는 사이트 : ${site}</div>
+        </body>
+    </html>
+ `   
+    console.log(mytemplate);
 }
 
-const email = "id@gmail";
-const resisterNumber = "210510-1010101";
-const phoneNumber = "010-1234-5678";
-const loveSite = "codeCamp.co.kr";
+const name = "코드캠프"
+const email = "support@codebootcamp.co.kr"
+const ssNd = "210510-1******"
+const phoneNb = "010-0000-0000"
+const site = "codebootcamp.co.kr"
 
-createUser({ email, resisterNumber, phoneNumber, loveSite });
+welcomeUser({name, email, ssNd, phoneNb, site});

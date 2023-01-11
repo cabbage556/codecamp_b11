@@ -1,14 +1,15 @@
-export function getCreateAt() {
-  const date = new Date();
-  const yyyy = date.getFullYear(); // padstart처리
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const dd = String(date.getDate()).padStart(2, "0");
-  const hh = String(date.getHours()).padStart(2, "0");
-  const min = String(date.getMinutes()).padStart(2, "0");
-  const sec = String(date.getSeconds()).padStart(2, "0");
-  console.log(`오늘은 ${yyyy}년 ${month}월 ${dd}일 ${hh}:${min}:${sec}입니다.`);
-  return `오늘은 ${yyyy}년 ${month}월 ${dd}일 ${hh}:${min}:${sec}입니다.`;
+
+export function getToday(today) {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var date = today.getDate();
+    var hours = today.getHours(); 
+    var minutes = today.getMinutes();  
+    var seconds = today.getSeconds();
+    
+    return console.log("오늘은 " + year + "년" + month + "월 " + date + "일 " +  hours + ":" + minutes + ":" + seconds + "입니다")
 }
 
-getCreateAt();
-// console.log(`오늘은 ${yyyy}년 ${month}월 ${dd}일 ${hh}:${min}:${sec}입니다.`);
+getToday()
+
