@@ -1,3 +1,4 @@
+
 export function getToday(today) {
     var today = new Date();
     var year = today.getFullYear();
@@ -11,3 +12,4 @@ export function getToday(today) {
 }
 
 getToday()
+

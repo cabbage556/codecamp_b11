@@ -1,3 +1,4 @@
+
 import { getToday } from "./date.js"
 
 function welcomeUser({name, email, ssNd, phoneNb, site}) {
