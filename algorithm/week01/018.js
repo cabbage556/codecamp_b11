@@ -2,10 +2,9 @@
 function boolean(input1, input2) {
   if (input1 || input2) {
     console.log("true");
-    return;
+  } else if (!input1 && !input2) {
+    console.log("false");
   }
-
-  console.log("false");
 }
 
 boolean(true, false); // "true"

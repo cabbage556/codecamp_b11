@@ -13,3 +13,12 @@ export const getToday = function () {
   const dd = format(today.getDate());
   return `${yyyy}-${mm}-${dd}`;
 };
+
+// export function getToday(){
+//   const aaa = new Date()
+//   const yyyy = aaa.getFullYear()
+//   const mm = aaa.getMonth() + 1
+//   const dd = aaa.getDate()
+//   const today = `${yyyy}-${mm}-${dd}`
+//   return today
+// }
