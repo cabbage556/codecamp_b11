@@ -2,11 +2,14 @@
  * @swagger
  * /starbucks:
  *   get:
- *     summary: 게시글 가져오기
- *     tags: [Board]
+ *     summary: 커피정보 가져오기
+ *     tags: [Starbucks]
  *     parameters:
  *       - in: query
- *         name: number
+ *         name: name
+ *         type: string
+ *       - in: query
+ *         name: kcal
  *         type: int
  *     responses:
  *       200:
@@ -17,27 +20,28 @@
  *               type: array
  *               items:
  *                 properties:
- *                   number:
- *                     type: int
- *                     example: 1
- *                   writer:
- *                     type: string
- *                     example: 철수
- *                   title:
- *                     type: string
- *                     example: 좋은아침 입니다~
- *                   contents:
- *                     type: string
- *                     example: 오늘 하루도 파이팅 하세요!
+ *                     name:
+ *                       type: string
+ *                       example: 아메리카노
+ *                     kcal:
+ *                       type: int
+ *                       example: 1
  */
 
 /**
  * @swagger
  * /starbucks:
  *   post:
- *     summary: 게시글 등록하기
- *     tags: [Board]
+ *     summary: 커피정보 등록하기
+ *     tags: [Starbucks]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         type: string
+ *       - in: query
+ *         name: kcal
+ *         type: int
  *     responses:
  *       200:
- *         description: 성공
+ *         description: 커피정보가 등록되었습니다!
  */

@@ -2,12 +2,24 @@
  * @swagger
  * /users:
  *   get:
- *     summary: 게시글 가져오기
- *     tags: [Board]
+ *     summary: 회원정보 가져오기
+ *     tags: [Users]
  *     parameters:
  *       - in: query
- *         name: number
- *         type: int
+ *         name: email
+ *         type: string
+ *       - in: query
+ *         name: name
+ *         type: string
+ *       - in: query
+ *         name: phone
+ *         type: string
+ *       - in: query
+ *         name: personal
+ *         type: string
+ *       - in: query
+ *         name: prefer
+ *         type: string
  *     responses:
  *       200:
  *         description: 성공
@@ -17,27 +29,47 @@
  *               type: array
  *               items:
  *                 properties:
- *                   number:
- *                     type: int
- *                     example: 1
- *                   writer:
+ *                   email:
+ *                     type: string
+ *                     example: aaa@gmail.com
+ *                   name:
  *                     type: string
  *                     example: 철수
- *                   title:
+ *                   phone:
  *                     type: string
- *                     example: 좋은아침 입니다~
- *                   contents:
+ *                     example: 010-1111-1111
+ *                   personal:
  *                     type: string
- *                     example: 오늘 하루도 파이팅 하세요!
+ *                     example: 220110-1111111
+ *                   prefer:
+ *                     type: string
+ *                     example: https://naver1.com
+ *
  */
 
 /**
  * @swagger
  * /users:
  *   post:
- *     summary: 게시글 등록하기
- *     tags: [Board]
+ *     summary: 회원정보 등록하기
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         type: string
+ *       - in: query
+ *         name: name
+ *         type: string
+ *       - in: query
+ *         name: phone
+ *         type: string
+ *       - in: query
+ *         name: personal
+ *         type: string
+ *       - in: query
+ *         name: prefer
+ *         type: string
  *     responses:
  *       200:
- *         description: 성공
+ *         description: 회원정보가 등록되었습니다!!
  */
