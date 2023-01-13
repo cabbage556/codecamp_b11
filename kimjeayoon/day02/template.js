@@ -1,4 +1,5 @@
 
+
 export function userEmail(email) {
     if (email === undefined || email.includes("@") === false) {
         console.log("에러 발생!!! 이메일이 올바르지 않습니다!!")
@@ -79,3 +80,4 @@ export function welcomeUser({name, email, ssNd, phoneNb, site}) {
 export function sendTemplateToEmail(myEmail, result) {
     console.log(myEmail + "이메일로 가입환영템플릿 " + result + "를 전송합니다.")    
 }
+
