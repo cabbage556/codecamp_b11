@@ -37,7 +37,5 @@ export function makingTemplate({ email, getNumber, phoneNumber, loveSite }) {
 }
 
 export function sendWelcomeTemplateToEmail({ email, myTemplate }) {
-  console.log(
-    { email } + "이메일로 가입환영템플릿" + myTemplate + "룰 전송합니다."
-  );
+  console.log(`${email}로 가입환영템플릿${myTemplate}를 전송합니다.`);
 }
