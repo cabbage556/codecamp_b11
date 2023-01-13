@@ -13,6 +13,7 @@ import sendTokenToSMS from "./phone.js"; // export default 가져오기
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import { options } from "./swagger/config.js";
+import cors from "cors";
 
 const app = express();
 
@@ -20,6 +21,10 @@ const app = express();
 // express 프레임워크는 기본적으로 json 형태를 지원하지 않음
 // 요청 body에 들어오는 json 데이터를 express가 해석할 수 있게 해주는 코드
 app.use(express.json());
+
+// cors 적용
+// 모든 origin에서 들어오는 요청 허용
+app.use(cors());
 
 // 모든 HTTP 메서드에서 동작하는 API
 // endpoint => /api-docs
@@ -61,7 +66,10 @@ app.post("/tokens/phone", function (req, res) {
 
   // 1. 휴대폰번호 자릿수 확인 (10~11자리)
   const isValid = checkPhone(phoneNumber);
-  if (!isValid) return;
+  if (!isValid) {
+    res.send("인증 실패!!!");
+    return;
+  }
 
   // 2. 토큰 6자리 생성
   const myToken = getToken();

@@ -13,16 +13,19 @@
 // - 최댓값을 저장할 수 있는 변수가 있어야 합니다.
 
 function bigNum(str) {
-  let biggest = str[0];
+  // let biggest = str[0] * 1; // 문자에 1을 곱해서 문자를 숫자로 변환하기
 
-  for (let i = 1; i < str.length; i++) {
-    if (biggest < str[i]) {
-      biggest = str[i];
-    }
-  }
+  // for (const element of str) {
+  //   if (biggest < element * 1) {
+  //     biggest = element * 1;
+  //   }
+  // }
 
-  console.log(biggest);
+  // return biggest;
+
+  str = str.split(""); // 문자열을 빈 문자열로 쪼개어 배열로 반환함
+  return Math.max(...str); // ...[1, 2, 3, 4, 5] => 1, 2, 3, 4, 5
 }
 
-bigNum("12345"); // 5
-bigNum("87135"); // 8
+console.log(bigNum("12345")); // 5
+console.log(bigNum("87135")); // 8
