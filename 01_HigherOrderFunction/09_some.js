@@ -42,8 +42,13 @@
 */
 
 function some(callback, arr) {
-    // 여기에 코드를 작성하세요
-    
+  let answer = false;
+
+  arr.forEach((data) => {
+    if (callback(data)) answer = true;
+  });
+
+  return answer;
 }
 
 module.exports = some;

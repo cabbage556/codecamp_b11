@@ -44,13 +44,11 @@
 */
 
 function whatIsHoF_01(arr) {
+  function HoF() {
+    return arr.map((number) => number + 1);
+  }
 
-    function HoF(arr) {
-    // 여기에 코드를 작성하세요
-
-    }
-    
-    return HoF(arr)
+  return HoF();
 }
 
 module.exports = whatIsHoF_01;

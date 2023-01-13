@@ -56,14 +56,34 @@
     출력 예시
 
     1.  { name : "Gray", age : 52  }
-
     2.  { name : "Gray", age : 52  }
 
 */
 
 function reduce_05(arr, initialValue) {
-    // 여기에 코드를 작성하세요
-    
+  const elderArr = [];
+
+  // 나이 기준 내림차순 정렬
+  arr.sort((a, b) => {
+    if (a.age < b.age) return 1;
+    if (a.age > b.age) return -1;
+    return 0;
+  });
+
+  // elderArr에 연장자 객체 추가
+  arr.forEach((objElement) => {
+    if (objElement.age === arr[0].age) elderArr.push(objElement);
+  });
+
+  // 이름 기준 오름차순 정렬
+  elderArr.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+
+  // 이름 순서가 뒤에 있는 사람의 정보 리턴
+  return elderArr.pop();
 }
 
 module.exports = reduce_05;

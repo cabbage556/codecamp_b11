@@ -34,8 +34,10 @@
 */
 
 function whatIsHoF_02(callback, arr) {
-    // 여기에 코드를 작성하세요
-
+  // for (let i = 0; i < arr.length; i++) {
+  //   arr[i] = callback(arr[i]);
+  // }
+  return arr.map((element) => callback(element));
 }
 
 module.exports = whatIsHoF_02;

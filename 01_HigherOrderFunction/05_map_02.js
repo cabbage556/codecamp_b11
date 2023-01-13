@@ -35,12 +35,17 @@
 */
 
 function map_02(arr) {
-    
-    function HoF() {
-    // 여기에 코드를 작성하세요
+  function HoF() {
+    const newArr = [];
 
-    }
-    
+    arr.forEach((data) => {
+      newArr.push(data + "님");
+    });
+
+    return newArr;
+  }
+
+  return HoF();
 }
 
 module.exports = map_02;

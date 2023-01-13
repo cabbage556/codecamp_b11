@@ -60,8 +60,17 @@
 */
 
 function reduce_04(arr, initialValue) {
-    // 여기에 코드를 작성하세요
-    
+  const result = initialValue ? initialValue : [];
+
+  arr.forEach((arrElement) => {
+    const obj = {};
+    arrElement.forEach((element) => {
+      typeof element === "string" ? (obj.name = element) : (obj.age = element);
+    });
+    result.push(obj);
+  });
+
+  return result;
 }
 
 module.exports = reduce_04;

@@ -42,8 +42,14 @@
 */
 
 function sort_01(arr, sortType) {
-    // 여기에 코드를 작성하세요
-    
+  // 여기에 코드를 작성하세요
+  return sortType
+    ? arr.sort((a, b) => {
+        return a - b;
+      })
+    : arr.sort((a, b) => {
+        return b - a;
+      });
 }
 
 module.exports = sort_01;

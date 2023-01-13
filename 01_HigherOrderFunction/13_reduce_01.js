@@ -49,8 +49,14 @@
 */
 
 function reduce_01(callback, arr, initialValue) {
-    // 여기에 코드를 작성하세요
-    
+  // 여기에 코드를 작성하세요
+  let result = initialValue ? initialValue : 0;
+
+  arr.forEach((number) => {
+    result = callback(result, number);
+  });
+
+  return result;
 }
 
 module.exports = reduce_01;

@@ -35,8 +35,17 @@
 */
 
 function filter_01(callback, arr) {
-    // 여기에 코드를 작성하세요
+  const result = [];
 
+  // for (const number of arr) {
+  //   if (callback(number)) result.push(number);
+  // }
+
+  arr.forEach((data) => {
+    if (callback(data)) result.push(data);
+  });
+
+  return result;
 }
 
 module.exports = filter_01;

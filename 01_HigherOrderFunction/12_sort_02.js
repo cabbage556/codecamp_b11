@@ -44,12 +44,47 @@
 */
 
 function sort_02(arr, sortType) {
+  function swap(arr, i) {
+    const temp = arr[i];
+    arr[i] = arr[i + 1];
+    arr[i + 1] = temp;
+  }
 
-    function HoF() {
-    // 여기에 코드를 작성하세요
+  function HoF(arr, sortType) {
+    // 버블정렬 알고리즘
+    let unsortedIndex = arr.length - 1;
+    let sorted = false;
 
+    while (!sorted) {
+      sorted = true;
+
+      if (sortType) {
+        // true => 오름차순
+        for (let i = 0; i < unsortedIndex; i++) {
+          if (arr[i] > arr[i + 1]) {
+            swap(arr, i);
+            sorted = false;
+          }
+        }
+      } else {
+        // false => 내림차순
+        for (let i = 0; i < unsortedIndex; i++) {
+          if (arr[i] < arr[i + 1]) {
+            swap(arr, i);
+            sorted = false;
+          }
+        }
+      }
+
+      unsortedIndex -= 1;
     }
 
+    return arr;
+  }
+
+  return HoF(arr, sortType);
 }
+
+console.log(sort_02([10, 4, 55, 22, 1], false));
 
 module.exports = sort_02;

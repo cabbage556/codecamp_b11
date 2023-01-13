@@ -54,12 +54,13 @@
 */
 
 function thisIsSeven(str) {
-    function recursion(count) {
-    // 여기에 코드를 작성하세요
+  function recursion(count) {
+    if (str[count] === "7") return 0;
 
-    }
+    return 1 + recursion(count + 1);
+  }
 
-    return recursion(0)
+  return recursion(0);
 }
 
 module.exports = thisIsSeven;

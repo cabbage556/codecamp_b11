@@ -40,9 +40,9 @@
 */
 
 function whatIsRecursion_01(count) {
-    let sum = 0;
-    // 여기에 코드를 작성하세요
-    
+  if (count <= 0) return 0;
+
+  return 2 + whatIsRecursion_01(count - 1);
 }
 
 module.exports = whatIsRecursion_01;

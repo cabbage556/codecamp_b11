@@ -53,12 +53,13 @@
 */
 
 function thisIsOnlySeven(str) {
-    function recursion() {
-    // 여기에 코드를 작성하세요
+  function recursion(count) {
+    if (str[count] === "7") return str.length - 1;
 
-    }
+    return recursion(count + 1);
+  }
 
-    return recursion()
+  return recursion(0);
 }
 
 module.exports = thisIsOnlySeven;

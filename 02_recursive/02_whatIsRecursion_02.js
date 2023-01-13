@@ -49,14 +49,13 @@
 */
 
 function WhatIsRecursion_02(count) {
-    let sum = 0;
+  function recursion(count) {
+    if (count === 0) return 0;
 
-    function recursion() {
-    // 여기에 코드를 작성하세요
+    return 2 + recursion(count - 1);
+  }
 
-    }
-
-    return recursion()
+  return recursion(count);
 }
 
 module.exports = WhatIsRecursion_02;

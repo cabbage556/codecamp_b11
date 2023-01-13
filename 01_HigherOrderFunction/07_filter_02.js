@@ -34,12 +34,17 @@
 */
 
 function filter_02(arr) {
-    
-    function HoF() {
-    // 여기에 코드를 작성하세요
+  function HoF() {
+    const result = [];
 
-    }
+    arr.forEach((data) => {
+      if (data % 2 === 0) result.push(data);
+    });
 
+    return result;
+  }
+
+  return HoF();
 }
 
 module.exports = filter_02;

@@ -48,12 +48,17 @@
 */
 
 function reduce_02(arr, initialValue) {
+  function HoF(acc, cur) {
+    return acc + cur;
+  }
 
-    function HoF(acc, cur) {
-    // 여기에 코드를 작성하세요
-    
-    }
-    
+  let result = initialValue ? initialValue : 0;
+
+  arr.forEach((number) => {
+    result = HoF(result, number);
+  });
+
+  return result;
 }
 
 module.exports = reduce_02;

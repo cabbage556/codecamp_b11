@@ -35,8 +35,14 @@
 */
 
 function map_01(callback, arr) {
-    // 여기에 코드를 작성하세요
-    
+  // 여기에 코드를 작성하세요
+  const newArr = [];
+
+  arr.forEach((data) => {
+    newArr.push(callback(data));
+  });
+
+  return newArr;
 }
 
 module.exports = map_01;

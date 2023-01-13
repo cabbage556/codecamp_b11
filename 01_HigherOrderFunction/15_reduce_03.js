@@ -50,8 +50,14 @@
 */
 
 function reduce_03(callback, arr, initialValue) {
-    // 여기에 코드를 작성하세요
-    
+  // 여기에 코드를 작성하세요
+  let result = initialValue ? initialValue : "";
+
+  arr.forEach((str) => {
+    result = callback(result, str);
+  });
+
+  return result;
 }
 
 module.exports = reduce_03;
