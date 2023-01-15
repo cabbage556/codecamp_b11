@@ -1,23 +1,30 @@
-function getWelcomeTemplate({ name, email, uniqueNumber, phone, mysite }) {
-    const myTemplate = `
-        <html>
-            <body>
-                <h1>${name}님 가입을 환영합니다!!!</h1>
-                <hr />
-                <div>이메일 : ${email}</div>
-                <div>주민번호 : ${uniqueNumber}</div>
-                <div>휴대폰번호 : ${phone}</div>
-                <div>내가 좋아하는 사이트 : ${mysite}</div>
-            </body>
-        </html>
-    `;
-    console.log(myTemplate);
+import {
+    checkEmail,
+    checkPhon,
+    getWelcomeTemplate,
+    sendTemplateToEmail,
+} from './utils.js';
+
+function createUser({ name, email, uniqueNumber, phone, mysite }) {
+    // 이메일이 정상인지 확인(1-존재여부, 2-"@" 포함여부)
+    const isValid = checkEmail(email);
+    if (isValid === false) return;
+
+    // 휴대폰 번호 체크
+    const isPhon = checkPhon(phone);
+    if (isPhon === false) return;
+
+    // 가입환영 템플릿 만들기
+    const myTemplate = getWelcomeTemplate({ name, email, uniqueNumber, phone, mysite });
+
+    // 이메일에 가입환영 템플릿 전송하기
+    sendTemplateToEmail({ myTemplate, email });
 }
 
 const name = '코드캠프';
 const email = 'test@test.com';
-const uniqueNumber = '123456 - 1*******';
+const uniqueNumber = '123456-1234567';
 const phone = '010-1234-5678';
 const mysite = 'codecamp.co.kr';
 
-getWelcomeTemplate({ name, email, uniqueNumber, phone, mysite });
+createUser({ name, email, uniqueNumber, phone, mysite });
