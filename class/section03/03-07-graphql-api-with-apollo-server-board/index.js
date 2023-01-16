@@ -65,10 +65,10 @@ const resolvers = {
   },
   Mutation: {
     createBoard: (parent, args, context, info) => {
-      // parent: 백엔드 API에 요청할 때 데이터
-      // args: 브라우저에서 요청할 때 데이터
-      // context: request, response
-      // info: graphql 기타 정보들
+      // `parent` : 부모 타입 resolver에서 반환된 결과를 가진 객체
+      // `args` : 쿼리 요청 시 전달된 parameter를 가진 객체
+      // `context` : GraphQL의 모든 resolver가 공유하는 객체로서 로그인 인증, 데이터베이스 접근 권한 등에 사용
+      // `info` : 명령 실행 상태 정보를 가진 객체
 
       // 1. 브라우저에서 보내준 데이터 확인하기
       console.log(args.createBoardInput);
