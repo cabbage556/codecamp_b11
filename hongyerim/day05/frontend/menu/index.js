@@ -1,5 +1,3 @@
-import { getCoffee } from "./menu.js";
-
 const openMenu = () => {
   console.log("메뉴 열기 버튼 클릭");
   // 모달창 열기

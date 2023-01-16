@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="./index.css" />
     <script src="./index.js"></script>
     <script src="./user.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      // axios.post(url, data[, config])
+      axios.get("http://localhost:3002/user").then((res) => {
+        console.log(res.data);
+        getUser(res.data);
+        // 리스폰스 결과를 겟커피 함수의 인자로 보내준다
+      });
+    </script>
     <title>유저 리스트</title>
   </head>
   <body>
@@ -14,8 +23,7 @@
       <div id="Wrapper">
         <div
           id="Navi_Wrapper"
-          style="width: 100%; display: flex; justify-content: space-between"
-        >
+          style="width: 100%; display: flex; justify-content: space-between">
           <a href="../login/index.html" class="Back_Button"> 🔙로그인 </a>
           <a href="../menu/index.html" class="Back_Button"> 메뉴보기 </a>
         </div>
@@ -31,7 +39,7 @@
             <div class="Item_Info" id="phone">전화번호</div>
             <div class="Item_Info" id="prefer">좋아하는 사이트</div>
           </div>
-          <div id="User_Data_Wrapper"/>
+          <div id="User_Data_Wrapper" />
         </div>
       </div>
     </div>

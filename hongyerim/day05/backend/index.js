@@ -2,11 +2,13 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import { options } from "./swagger/config.js";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options)));
-app.get("/users", function (req, res) {
+app.get("/user", function (req, res) {
   // 1. DB에 접속 후 데이터를 조회하기 ==> 조회했다고 가정함
   const person = [
     {
@@ -54,18 +56,16 @@ app.get("/starbucks", function (req, res) {
   // 1. DB에 접속 후 데이터를 조회하기 ==> 조회했다고 가정함
   const coffee = [
     { name: "아메리카노", kcal: 5 },
-    { name: "커피1", kcal: 1 },
-    { name: "커피2", kcal: 2 },
-    { name: "커피3", kcal: 3 },
-    { name: "커피4", kcal: 4 },
-    { name: "커피5", kcal: 5 },
-    { name: "커피6", kcal: 6 },
-    { name: "커피7", kcal: 7 },
-    { name: "커피8", kcal: 8 },
-    { name: "커피9", kcal: 9 },
+    { name: "커피1", kcal: 100 },
+    { name: "커피2", kcal: 200 },
+    { name: "커피3", kcal: 300 },
+    { name: "커피4", kcal: 400 },
+    { name: "커피5", kcal: 500 },
+    { name: "커피6", kcal: 600 },
+    { name: "커피7", kcal: 700 },
+    { name: "커피8", kcal: 800 },
+    { name: "커피9", kcal: 900 },
   ];
-
-  // 2. DB에서 꺼내온 결과를 브라우저에 응답(response) 주기
   res.send(coffee);
 });
 
