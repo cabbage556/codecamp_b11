@@ -10,7 +10,7 @@ export function checkEmail(email) {
   }
 }
 
-export function getWelcomeTemplate({ name, age, school }) {
+export function getWelcomeTemplate({ phone, name, likeSite }) {
   const mytemplate = `
         <html>
             <body>
@@ -19,8 +19,8 @@ export function getWelcomeTemplate({ name, age, school }) {
                         <h1>${name}님 가입을 환영합니다!!!</h1>
                         <hr />
                         <div style="color: red;">이름: ${name}</div>
-                        <div>나이: ${age}</div>
-                        <div>학교: ${school}</div>
+                        <div>전화번호: ${phone}</div>
+                        <div>좋아하는 사이트: ${likeSite}</div>
                         <div>가입일: ${getToday()}</div>
                     </div>
                 </div>
