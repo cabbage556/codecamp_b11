@@ -1,8 +1,16 @@
 import express from "express";
+import {
+  checkEmail,
+  getWelcomeTemplate,
+  sendTemplateToEmail,
+} from "./email.js";
+import { checkPhone, getToken, sendTokenToSMS } from "./phone.js";
+
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import { options } from "./swagger/config.js";
 import cors from "cors";
+import "dotenv/config";
 
 const app = express();
 app.use(express.json());
@@ -69,7 +77,64 @@ app.get("/starbucks", function (req, res) {
   res.send(coffee);
 });
 
-app.listen(3002, () => {
-  console.log("과제의 백엔드 서버가 켜졌어요!!");
-  console.log("http://localhost:3002");
+//====================  1) 휴대폰 인증 토큰 발급 API ====================
+app.get("/userinfo", function (req, res) {
+  const userInfo = [
+    {
+      name: "철수",
+      personal: "220116-1111111",
+      phoneNumber: "01011112222",
+      favSite: "www.naver.com",
+      email: "aaaaa@naver.com",
+      pw: "pw1234",
+    },
+  ];
+  res.send(userInfo);
+});
+
+app.post("/userinfo", function (req, res) {
+  // req = userInput;
+  console.log("회원정보 저장에 성공했습니다.");
+
+  const myPhone = req.body.phoneNumber;
+  const isValid = checkPhone(myPhone);
+  if (isValid === false) return;
+
+  const myToken = getToken();
+
+  const message = sendTokenToSMS(myPhone, myToken);
+  console.log("인증 번호 전송 완료!!");
+  res.send(message);
+});
+
+// ==================== 2) 회원 가입 API (가입 환영 템플릿 이메일 발송 기능)  ====================
+app.get("/useremail", function (req, res) {
+  // 1. DB에 접속 후 데이터를 조회하기 ==> 조회했다고 가정함
+  const result = [
+    {
+      name: "철수",
+      age: 8,
+      school: "다람쥐초등학교",
+      email: "aaa@fdsffas.com",
+    },
+  ];
+
+  res.send(result);
+});
+
+app.post("/useremail", function (req, res) {
+  const { name, age, school, email } = req.body;
+
+  const isValid = checkEmail(email);
+  if (isValid === false) return;
+
+  const myTemplate = getWelcomeTemplate({ name, age, school, email });
+
+  sendTemplateToEmail(email, myTemplate);
+  res.send("회원 가입 이메일 전송 완료!!!");
+});
+
+app.listen(3003, () => {
+  console.log("백엔드 서버가 켜졌어요!!");
+  console.log("http://localhost:3003");
 });
