@@ -1,0 +1,116 @@
+<!-- `http://numbersapi.com/random?min=1&max=200` -->
+<!-- `https://koreanjson.com/posts/${num}` -->
+<!-- `https://koreanjson.com/posts?userId=${userId}` -->
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>콜백과 친구들</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      // function addEventListener(aaa, bbb) {
+      //   // 미리 설정된 API 주소로 요청!
+      //   const res = 197; // 설정된 API 주소로부터 받아온 결과
+
+      //   if (aaa === "load") {
+      //     bbb(res) // 콜백함수 호출
+      //   }
+      // }
+      const myCallback = () => {
+        // axios가 없던 시절의 API 통신 방식⭐️⭐️ => 이후에 추가된 패키지나 모듈을 사용하는 이유를 물어 본다면 예전에 사용하던 방식에 어떤 단점이 있어서 이를 보완하기 위해 이런 패키지나 모듈을 사용하게 되었다고 답할 수 있어야 함
+        const aa = new XMLHttpRequest();
+        aa.open("get", `http://numbersapi.com/random?min=1&max=200`);
+        aa.send();
+        aa.addEventListener("load", (res) => {
+          // 콜백함수
+          console.log(res); // API 요청 결과
+          const num = res.target.response.split(" ")[0]; // 101 (랜덤 숫자)
+
+          const bb = new XMLHttpRequest();
+          bb.open("get", `https://koreanjson.com/posts/${num}`);
+          bb.send();
+          bb.addEventListener("load", (res) => {
+            // 콜백함수
+            console.log(res); // API 요청 결과
+            const userId = JSON.parse(res.target.response).UserId;
+
+            const cc = new XMLHttpRequest();
+            cc.open("get", `https://koreanjson.com/posts?userId=${userId}`);
+            cc.send();
+            cc.addEventListener("load", (res) => {
+              // 콜백함수
+              console.log(res); // 최종 API 요청 결과
+            });
+          });
+        });
+      };
+
+      // new Promise((성공했을때실행시킬함수, 실패했을때실행시킬함수) => {
+      //   try {
+      //     // 여기서 API 요청을 한다면?
+      //     const response = "철수"; // 백엔드에서 "철수" 데이터 받아옴
+      //     성공했을때실행시킬함수(response); // 성공하면 이거 실행 => response("철수") 전달하여 then() 메서드 실행
+      //   } catch (error) {
+      //     실패했을때실행시킬함수("실패했습니다!"); // 실패하면 이거 실행 => "실패했습니다!" 전달하여 catch() 메서드 실행
+      //   }
+      // })
+      //   .then((res) => {
+      //     console.log(res); // 철수
+      //   })
+      //   .catch((error) => {
+      //     console.log(error); // 실패했습니다!
+      //   });
+
+      // const axios = {
+      //   get: new Promise((성공시실행함수, 실패시실행함수) => {})
+      // };
+
+      const myPromise = () => {
+        console.log("1번째로 실행!");
+        // Promise 체이닝
+        axios
+          .get(`http://numbersapi.com/random?min=1&max=200`)
+          .then((res) => {
+            console.log("2번째로 실행!");
+            const result1 = res.data.split(" ")[0];
+            return axios.get(`https://koreanjson.com/posts/${result1}`);
+          })
+          .then((res) => {
+            console.log("3번째로 실행!");
+            const result2 = res.data.UserId;
+            return axios.get(`https://koreanjson.com/posts?userId=${result2}`);
+          })
+          .then((res) => {
+            console.log("4번째로 실행!");
+            // res 최종 결과
+            console.log(res);
+          });
+        console.log("5번째로 실행!");
+      };
+
+      // fetch().then().catch()
+
+      // axios, fetch => 대표적인 Promise(.then, .catch 등의 기능)를 지원하는 기능
+      // axios, fetch 등을 기다리는 2가지 방법
+      // 1. .then() 활용
+      // 2. await 활용 => 주의! await는 아무데나 붙인다고 뒤에껄 기다리는게 아님! Promise 앞에 붙여서 Promise를 기다리는 것
+      const myAsyncAwait = async () => {
+        const res1 = await axios.get(
+          `http://numbersapi.com/random?min=1&max=200`
+        );
+        const res2 = await axios.get(
+          `http://numbersapi.com/random?min=1&max=200`
+        );
+        const res3 = await axios.get(
+          `http://numbersapi.com/random?min=1&max=200`
+        );
+        console.log(res1);
+      };
+    </script>
+  </head>
+  <body>
+    <button onclick="myCallback()">Callback 연습하기!!</button>
+    <button onclick="myPromise()">Promise 연습하기!!</button>
+    <button onclick="myAsyncAwait()">AsyncAwait 연습하기!!</button>
+  </body>
+</html>
