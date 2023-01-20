@@ -21,7 +21,10 @@
 */
 
 function noSpaces(word) {
-  // 여기에서 작업하세요.
+  return word
+    .split("")
+    .filter((el) => el !== " ")
+    .join("");
 }
 
 module.exports = noSpaces;

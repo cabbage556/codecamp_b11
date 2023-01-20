@@ -30,7 +30,17 @@
 */
 
 function addNew(obj1, obj2) {
-  // 여기에서 작업하세요.
+  const answer = {};
+
+  for (const key in obj1) {
+    answer[key] = obj1[key];
+  }
+
+  for (const key in obj2) {
+    if (answer[key] === undefined) answer[key] = obj2[key];
+  }
+
+  return answer;
 }
 
 module.exports = addNew;

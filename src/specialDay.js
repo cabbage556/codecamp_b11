@@ -23,7 +23,18 @@
 */
 
 function specialDay(month, day) {
-  // 여기에서 작업하세요.
+  let answer = "";
+
+  if (month > 2) answer = "After";
+  else if (month < 2) answer = "Before";
+  else {
+    // month === 2
+    if (day > 19) answer = "After";
+    else if (day < 19) answer = "Before";
+    else answer = "Special"; // day === 19
+  }
+
+  return answer;
 }
 
 module.exports = specialDay;
