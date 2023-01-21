@@ -17,12 +17,12 @@ export function getToken() {
 }
 
 export async function sendTokenToSMS(phone, token) {
-    // const messagwService = new mysms(process.env.APIKEY, process.env.APISECRET);
-    // const res = await messagwService.sendOne({
-    //     to: phone,
-    //     from: '01098062505',
-    //     text: `[코드캠프] 안녕하세요?! 요청하신 인증번호는 ${token}입니다.`,
-    // });
+    const messagwService = new mysms(process.env.APIKEY, process.env.APISECRET);
+    const res = await messagwService.sendOne({
+        to: phone,
+        from: '01098062505',
+        text: `[코드캠프] 안녕하세요?! 요청하신 인증번호는 ${token}입니다.`,
+    });
     console.log(res);
     console.log(`${phone}으로 인증 문자가 전송되었습니다.`);
 }
