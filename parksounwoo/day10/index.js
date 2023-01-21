@@ -16,27 +16,16 @@ app.use(express.json());
 app.post('/tokens/phone', async (req, res) => {
     let { phone } = req.body;
     phone = phone.split('-').join('');
-
-    const phones = await Phone.findOne({ phone });
+    const phoneToken = await Phone.findOne({ phone });
     const token = getToken();
-    console.log(phones.phone);
-    if (!phones.phone) {
+    sendTokenToSMS(phone, token);
+
+    if (!phoneToken) {
         const isValid = checkPhone(phone);
         if (isValid === false) return;
-
-        sendTokenToSMS(phone, token);
-
-        const myphone = new Phone({
-            token,
-            phone,
-            isAuth: false,
-        });
-        await myphone.save();
+        new Phone({ token, phone, isAuth: false }).save();
     } else {
-        sendTokenToSMS(phones.phone, token);
-
-        const a = await Phone.updateOne({ phone: phones.phone }, { token });
-        console.log(a);
+        await Phone.updateOne({ phone }, { token });
     }
 
     res.send(`${phone}으로 인증 문자가 전송되었습니다.`);
@@ -48,16 +37,11 @@ app.patch('/tokens/phone', async (req, res) => {
 
     const tokenCking = await Phone.findOne({ phone });
 
-    if (!tokenCking) {
-        res.send('false');
-        return;
-    }
-    if (tokenCking.token === token) {
+    if (tokenCking.token === token && tokenCking) {
         await Phone.update({ phone }, { token, isAuth: true });
-        res.send('true');
-        return;
+        return res.send('true');
     } else {
-        res.send('false');
+        return res.send('false');
     }
 });
 
