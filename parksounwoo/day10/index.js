@@ -37,7 +37,7 @@ app.patch('/tokens/phone', async (req, res) => {
 
     const tokenCking = await Phone.findOne({ phone });
 
-    if (tokenCking.token === token && tokenCking) {
+    if (tokenCking && tokenCking.token === token) {
         await Phone.update({ phone }, { token, isAuth: true });
         return res.send('true');
     } else {
