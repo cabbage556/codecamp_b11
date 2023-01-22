@@ -1,0 +1,31 @@
+# yaml 파일의 경우 들여쓰기가 굉장히 중요
+# docker-compose build 빌드
+# docker-compose up 실행
+
+version: '3.7'
+
+# 컴퓨터들
+services:
+  
+  ## Volume
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./index.js:/myfolder/index.js
+      - ./email.js:/myfolder/email.js
+      - ./phone.js:/myfolder/phone.js
+    
+
+      # - ./src:/myfolder/src
+    ports:
+      - 4000:4000
+
+  # 컴퓨터 이름
+  my-database:
+    image: mongo:5
+    ports:
+      - 27017:27017 
+    # => 몽고DB 컴패스에서 접속 안됨.
+    #                 => 하지만 네임리졸루션으로 Express와는 접속됨
