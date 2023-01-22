@@ -1,0 +1,21 @@
+version: "3.7"
+
+# 컴퓨터들
+services:
+  #컴퓨터이름
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./index.js:/myfolder/index.js
+      - ./phone.js:/myfolder/phone.js
+      # - ./index.js:/myfolder/src    소스코드 전체관리 하고 싶을때
+    ports:
+      - 4000:4000
+
+  #컴퓨터이름
+  my-database:
+    image: mongo:5
+    ports:
+      - 27017:27017 #주석처리시 => 몽고db컴패스에선 접속 안됨, but 네임리졸루션으로 express에서는 접속가능
