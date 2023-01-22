@@ -39,7 +39,6 @@ app.post("/tokens/phone", async function (req, res) {
 
 app.patch("/tokens/phone", async function (req, res) {
   let { phone, token } = req.body;
-  //db에있는 폰값을 찾아온다
   const receiveToken = await Certify.findOne({ phone });
   if (receiveToken === null) {
     res.send("false");
