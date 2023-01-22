@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import Token from "./models/token.model.js"
 import { getToken, sendTokenToSMS } from "./phone.js"
+import "dotenv/config"
 
 const app = express()
 
