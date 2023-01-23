@@ -20,23 +20,30 @@ app.use(cors());
 
     sendTokenToSMS(phone, token)
 
-    if (doc) {
-      await Token.updateOne({ phone })
-    } else {
-      new Token({ phone, isAuth: false }).save()
-    }
-    return res.send(`${phone}으로 인증문자가 전송되었습니다.`)
-  })
-  
-  app.patch('/tokens/phone', async (req, res) => {
-    const { phone, token } = req.body
-    const doc = await Token.findOne({ phone })
-    if (doc && doc.token === token) {
-      await Token.updateOne({ phone }, { isAuth: true })
-      return res.send(true)
-    }
-    return res.send(false)
-  })
+    const myNum = await Token.findOne({ phone })
+
+  myNum === null ? new Token({ phone : phone , token : myToken , isAuth : false }).save():
+  await Token.updateOne({phone : phone} , {token : myToken , isAuth : true});
+
+  // 3. 핸드폰 번호에 토큰 전송하기
+  sendTokenToSMS(phone, myToken)
+
+
+  res.send(`${phone}으로 인증 문자가 전송되었습니다!!!`);
+
+})
+
+app.patch("/tokens/phone", async(req, res)=>{
+
+  const { phone, token } = req.body
+  const myToken = await Token.findOne({ phone })
+
+  token === myToken.token ? await Token.updateOne({phone : phone},
+    {isAuth : true}):res.send("false");
+
+  res.send("true");
+
+})
 
 mongoose.connect("mongodb://mongodb:27017/myfolder")
   .then(() => console.log("db 접속에 성공하였습니다."))
