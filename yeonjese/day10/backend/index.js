@@ -12,6 +12,7 @@ import { options } from "./swagger/config.js";
 import cors from "cors";
 import mongoose from "mongoose";
 import { Token } from "./models/token.model.js";
+import "dotenv/config";
 
 const app = express();
 
@@ -42,7 +43,7 @@ app.post("/tokens/phone", async (req, res) => {
 
   // };
   try {
-    let temp = await Token.findOne({ myphone });
+    let temp = await Token.findOne({ phone: myphone });
     if (temp) {
       await Token.updateOne({ phone: myphone }, { token: myToken });
     } else {
@@ -67,7 +68,7 @@ app.patch("/tokens/phone", async (req, res) => {
 
   // };
   try {
-    let temp = await Token.findOne({ myphone });
+    let temp = await Token.findOne({ phone: myphone });
     if (!temp) {
       return res.send(false);
     } else {
