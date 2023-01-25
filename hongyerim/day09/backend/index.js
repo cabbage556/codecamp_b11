@@ -11,6 +11,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import { options } from "./swagger/config.js";
 import cors from "cors";
 import "dotenv/config";
+import mongoose from "mongoose";
 
 const app = express();
 app.use(express.json());
@@ -133,6 +134,12 @@ app.post("/useremail", function (req, res) {
   sendTemplateToEmail(email, myTemplate);
   res.send("회원 가입 이메일 전송 완료!!!");
 });
+
+// 몽고DB 접속!! // 추가
+mongoose
+  .connect("mongodb://my-database:27017/mydocker")
+  .then(() => console.log("db 접속에 성공하였습니다."))
+  .catch(() => console.log("db 접속에 실패하였습니다."));
 
 app.listen(4000, () => {
   console.log("백엔드 서버가 켜졌어요!!");
