@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - ./index.js:/myfolders/index.js
+      - ./phone.js:/myfolders/phone.js
+
+    ports:
+      - 4000:4000
+
+  my-database:
+    image: mongo:5
+
+    ports:
+      - 27017:27017
