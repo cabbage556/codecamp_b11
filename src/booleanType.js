@@ -23,7 +23,9 @@
 */
 
 function booleanType(bool) {
-  // 여기에서 작업하세요.
+  return bool
+    ? "Yes" // bool이 true라면 문자열 'Yes' 반환
+    : "No"; // bool이 false라면 문자열 'No' 반환
 }
 
 module.exports = booleanType;

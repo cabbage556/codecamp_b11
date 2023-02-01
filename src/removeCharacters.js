@@ -26,7 +26,10 @@
 */
 
 function removeCharacters(str) {
-  // 여기에서 작업하세요.
+  const strArr = str.split(""); // 배열로 나누기
+  strArr.pop(); // 가장 뒤의 요소 제거
+  strArr.shift(); // 가장 앞의 요소 제거
+  return strArr.join(""); // 문자열로 합치기
 }
 
 module.exports = removeCharacters;

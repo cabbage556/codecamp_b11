@@ -46,7 +46,15 @@
 */
 
 function findGold(arr) {
-  // 여기에서 작업하세요.
+  const answer = [];
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr[i].length; j++) {
+      if (arr[i][j] === "G") answer.push([i, j]); // 보물 찾기
+    }
+  }
+
+  // 보물이 하나면 1차원 배열로 만들어 리턴, 보물이 두개 이상이면 그대로 리턴
+  return answer.length === 1 ? answer.flat() : answer;
 }
 
 module.exports = findGold;

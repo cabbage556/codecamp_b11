@@ -34,7 +34,8 @@
 */
 
 function countingSheep(arr) {
-  // 여기에서 작업하세요.
+  // 'sheep' 요소만 갖는 배열을 만들고 길이를 반환하기
+  return arr.filter((el) => el === "sheep").length;
 }
 
 module.exports = countingSheep;
