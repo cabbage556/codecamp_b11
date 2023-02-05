@@ -27,7 +27,7 @@ const getUnknown = (arg1: unknown, arg2: unknown, arg3: unknown): [unknown, unkn
   return [arg3, arg2, arg1];
 };
 
-const result3 = getAny("철수", 123, true);
+const result3 = getUnknown("철수", 123, true);
 
 //
 //
