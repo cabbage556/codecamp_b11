@@ -22,6 +22,7 @@ export class CreateProductInput {
   @Field(() => Float)
   sugar: number;
 
+  // 검증 로직 확인을 위해 @Min(0)를 사용하지 않음
   @Field(() => Int)
   price: number;
 }

@@ -42,9 +42,7 @@ export class ProductsService {
   }: IProductsServiceUpdate): Promise<Product> {
     this.checkPrice({ updateProductInput });
 
-    const product = await this.productsRepository.findOne({
-      where: { id: productId },
-    });
+    const product = await this.findOne({ productId });
 
     const result = this.productsRepository.save({
       ...product,
