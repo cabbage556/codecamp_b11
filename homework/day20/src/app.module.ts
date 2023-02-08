@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ImagesModule } from './apis/images/images.module';
 import { MainCategoriesModule } from './apis/mainCategories/mainCategories.module';
 import { ProductsModule } from './apis/products/products.module';
 import { SubCategoriesModule } from './apis/subCategories/subCategories.module';
@@ -12,6 +13,7 @@ import { SubCategoriesModule } from './apis/subCategories/subCategories.module';
     ProductsModule,
     MainCategoriesModule,
     SubCategoriesModule,
+    ImagesModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/commons/graphql/schema.gql',
