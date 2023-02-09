@@ -14,6 +14,7 @@ export interface IUsersServiceFindOneByEmail {
 }
 
 export interface IUsersServiceUpdate {
+  id: string;
   updateUserInput: UpdateUserInput;
 }
 

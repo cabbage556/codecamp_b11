@@ -76,7 +76,7 @@ type Mutation {
   createSubCategory(createSubCategoryInput: CreateSubCategoryInput!): SubCategory!
   createImage(createImageInput: CreateImageInput!): Image!
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   deleteUser(id: String!): Boolean!
 }
 
@@ -119,11 +119,10 @@ input CreateUserInput {
   detailAddress: String!
   latestAddress: String
   latestDetailAddress: String
-  password: String!
+  password: String
 }
 
 input UpdateUserInput {
-  id: String
   name: String
   email: String
   phone: String
@@ -131,4 +130,5 @@ input UpdateUserInput {
   detailAddress: String
   latestAddress: String
   latestDetailAddress: String
+  password: String
 }

@@ -31,7 +31,7 @@ import { UsersModule } from './apis/users/users.module';
       entities: [__dirname + '/apis/**/*.entity.*'], // __dirname: /Users/taeyoon/Desktop/codecamp-backend-class/homework/day18/src (파일 위치 절대 경로로 표현)
       logging: true,
       synchronize: true,
-      timezone: 'Z',
+      timezone: 'local',
     }),
   ],
 })

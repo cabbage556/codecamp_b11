@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductsSaleslocationsService } from '../productsSaleslocations/productsSaleslocations.service';
 import { ProductsTagsService } from '../productsTags/productsTags.service';
-import { CreateProductInput } from './dto/create-product.input';
 import { Product } from './entities/product.entity';
 import {
   IProductsServiceCheckSoldout,
@@ -53,7 +52,7 @@ export class ProductsService {
     //  // 레파지토리에 직접 접근하면 검증 로직을 통일시킬 수 없음(서비스에서 검증 로직을 진행해야함)
 
     // 2-2. 상품 태그 등록
-    // productTags가 ['#전자제품', '#영등포', '#컴퓨터']와 같은 패턴이라고 가정
+    // productTags: ['#전자제품', '#영등포', '#컴퓨터']
     const tagNames = productTags.map((el) => el.replace('#', '')); // '#' 삭제
     // tagNames: ['전자제품', '영등포', '컴퓨터']
 
@@ -61,9 +60,9 @@ export class ProductsService {
     console.log(`tagNames: ${tagNames}`);
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
 
-    // 이미 저장된 태그를 확인하는 로직
+    // 이미 저장된 태그 확인
     const prevTags = await this.productsTagsService.findByNames({ tagNames });
-    // prevTags: [{id: ''전자제품ID', tag: '전자제품'}] => 전자제품이 등록된 태그라고 가정
+    // prevTags: [{id: ''전자제품ID', name: '전자제품'}] => 전자제품이 등록된 태그라고 가정
 
     const temp = []; // [{ tag: "영등포" }, { tag: "컴퓨터" }]
     tagNames.forEach((el) => {
@@ -76,8 +75,19 @@ export class ProductsService {
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
 
     const newTags = await this.productsTagsService.bulkInsert({ names: temp }); // 📌📌📌bulk-insert는 save()로 불가능📌📌📌
-    const tags = [...prevTags, ...newTags.identifiers]; // tags: [{id: '전자제품ID'}, {id: '컴퓨터ID'}, {id: '영등포ID'}]
+
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
+    console.log(`newTags: ${JSON.stringify(newTags)}`);
+    console.dir(newTags);
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
+
+    const tags = [...prevTags, ...newTags.identifiers]; // tags: [{id: '전자제품ID', name: '전자제품'}, {id: '컴퓨터ID', name: '컴퓨터'}, {id: '영등포ID', name: '영등포'}]
     // newTags.indentifiers 상품 태그 id 배열
+
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
+    // console.log(`tags: ${JSON.stringify(tags)}`);
+    console.dir(tags);
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
 
     const result2 = this.productsRepository.save({
       ...product,
@@ -99,23 +109,22 @@ export class ProductsService {
   async update(
     { productId, updateProductInput }: IProductsServiceUpdate, //
   ): Promise<Product> {
+    console.log('productsService update');
     // 기존 로직을 재사용하여 로직을 통일한다.
     const product = await this.findOne({ productId });
 
     // const { name, description, price } = updateProductInput;
-    const { ...updateInput } = updateProductInput;
+    const { productSaleslocation, productTags, ...updateInput } =
+      updateProductInput;
+    // const {  productSaleslocation, ...updateInput } = updateProductInput;
 
-    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.log(`product: ${product}`);
-    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.log(`updateProductInput: ${{ ...updateProductInput }}`);
-    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.log(
-      `updateInput: ${updateInput.name} ${updateInput.description} ${updateInput.price}`,
-    );
-    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌`);
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
+    console.log(`updateInput.name: ${updateInput.name}`);
+    console.log(`updateInput.description: ${updateInput.description}`);
+    console.log(`updateInput.price: ${updateInput.price}`);
+    // console.log(`updateInput.productSaleslocation: ${productSaleslocation}`);
+    console.log(`updateInput.productTags: ${productTags}`);
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
 
     // 검증은 서비스에서 처리하는 것이 좋다.
     this.checkSoldout({ product });
@@ -124,13 +133,8 @@ export class ProductsService {
     // 숙제-2) 에러 고쳐보기
     const result = this.productsRepository.save({
       ...product,
+      ...updateInput,
       // ...updateProductInput,
-      // name,
-      // description,
-      // price,
-      name: updateInput.name,
-      description: updateInput.description,
-      price: updateInput.price,
     });
 
     return result;

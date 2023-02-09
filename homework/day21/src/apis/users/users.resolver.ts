@@ -10,13 +10,6 @@ export class UsersResolver {
     private readonly usersService: UsersService, //
   ) {}
 
-  @Mutation(() => User)
-  createUser(
-    @Args('createUserInput') createUserInput: CreateUserInput, //
-  ): Promise<User> {
-    return this.usersService.create({ createUserInput });
-  }
-
   @Query(() => User)
   fetchUser(
     @Args('id') id: string, //
@@ -30,10 +23,18 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
+  createUser(
+    @Args('createUserInput') createUserInput: CreateUserInput, //
+  ): Promise<User> {
+    return this.usersService.create({ createUserInput });
+  }
+
+  @Mutation(() => User)
   updateUser(
+    @Args('id') id: string, //
     @Args('updateUserInput') updateUserInput: UpdateUserInput, //
   ): Promise<User> {
-    return this.usersService.update({ updateUserInput });
+    return this.usersService.update({ id, updateUserInput });
   }
 
   @Mutation(() => Boolean)

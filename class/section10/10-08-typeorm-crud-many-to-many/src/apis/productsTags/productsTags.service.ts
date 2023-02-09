@@ -20,13 +20,14 @@ export class ProductsTagsService {
     });
 
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.log(`result after find: ${result}`);
+    console.log(`find result after findByNames`);
+    console.dir(result);
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
 
     return result;
   }
 
-  bulkInsert({ names }: IProductsTagsServiceBulkInsert) {
-    return this.productsTagsRepository.insert(names);
+  bulkInsert({ names }: IProductsTagsServiceBulkInsert): Promise<InsertResult> {
+    return this.productsTagsRepository.insert([...names]);
   }
 }
