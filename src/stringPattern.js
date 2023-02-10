@@ -45,7 +45,56 @@
 */
 
 function stringPattern(pattern, str) {
-  // 여기에서 작업하세요.
+  const ptrArr = pattern.split("");
+  const strArr = str.split(" ");
+  const pattern1 = []; // ptrArr 앞뒤문자열 비교 결과 저장 배열
+  const pattern2 = []; // strArr 앞뒤문자열 비교 결과 저장 배열
+
+  // 단어 반복 횟수가 다르면 false 리턴
+  if (ptrArr.length !== strArr.length) return false;
+
+  // 오름차순 정렬
+  ptrArr.sort();
+  strArr.sort();
+
+  // 1번. 📌
+  // ptrArr 정렬 후 앞뒤문자열 비교
+  for (let i = 0; i < ptrArr.length - 1; i++) {
+    ptrArr[i] !== ptrArr[i + 1] ? pattern1.push(false) : pattern1.push(true);
+  }
+
+  // strArr 정렬 후 앞뒤문자열 비교
+  for (let i = 0; i < strArr.length - 1; i++) {
+    strArr[i] !== strArr[i + 1] ? pattern2.push(false) : pattern2.push(true);
+  }
+
+  // 패턴이 일치하지 않으면 false 리턴
+  for (let i = 0; i < pattern1.length; i++) {
+    if (pattern1[i] !== pattern2[i]) return false;
+  }
+
+  // 모든 조건 통과 후 true 리턴
+  return true;
+
+  // 2번. 📌
+  // // ptrArr 정렬 후 앞뒤문자열 비교
+  // for (let i = 0; i < ptrArr.length - 1; i++) {
+  //   ptrArr[i] !== ptrArr[i + 1] ? pattern1.push(false) : pattern1.push(true);
+  // }
+
+  // // strArr 정렬 후 앞뒤문자열 비교
+  // for (let i = 0; i < strArr.length - 1; i++) {
+  //   if (strArr[i] !== strArr[i + 1]) {
+  //     // strArr 앞뒤문자열이 다른 경우 ptrArr 앞뒤문자열이 같으면 false 리턴
+  //     if (pattern1[i]) return false;
+  //   } else {
+  //     // strArr 앞뒤문자열이 같은 경우 ptrArr 앞뒤문자열이 다르면 false 리턴
+  //     if (!pattern1[i]) return false;
+  //   }
+  // }
+
+  // // 모든 조건 통과 후 true 리턴
+  // return true;
 }
 
 module.exports = stringPattern;

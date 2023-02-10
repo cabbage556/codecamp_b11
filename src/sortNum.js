@@ -31,7 +31,7 @@
 */
 
 function sortNum(arr) {
-  // 여기에서 작업하세요.
+  return arr.sort((a, b) => a - b); // 오름차순 정렬
 }
 
 module.exports = sortNum;

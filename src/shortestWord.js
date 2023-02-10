@@ -25,7 +25,11 @@
 */
 
 function shortestWord(arr) {
- // 여기에서 작업하세요.
+  const answer = arr
+    .filter((el) => typeof el === "string") // 문자열 타입 골라내기
+    .sort((a, b) => a.length - b.length); // 길이 순으로 오름차순 정렬
+
+  return answer[0];
 }
 
 module.exports = shortestWord;

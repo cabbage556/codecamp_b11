@@ -42,7 +42,18 @@
 */
 
 function makeChange(change) {
-  // 여기에서 작업하세요.
+  let answer = 0;
+  const coins = [500, 100, 50, 10, 5, 1]; // 동전 종류
+
+  // coins 배열 반복
+  for (const coin of coins) {
+    // change가 0이 될때까지 반복
+    while (change - coin >= 0) {
+      answer++;
+      change -= coin;
+    }
+  }
+  return answer;
 }
 
 module.exports = makeChange;
