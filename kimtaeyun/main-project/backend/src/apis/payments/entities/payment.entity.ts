@@ -1,13 +1,23 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Product } from 'src/apis/products/entities/product.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+export enum PAYMENT_STATUS_ENUM {
+  PAYMENT = 'PAYMENT',
+  CANCEL = 'CANCEL',
+}
+
+registerEnumType(PAYMENT_STATUS_ENUM, {
+  name: 'PAYMENT_STATUS_ENUM',
+});
 
 @Entity()
 @ObjectType()
@@ -17,28 +27,35 @@ export class Payment {
   id: string;
 
   @Column()
-  @Field(() => Int)
-  totalPrice: number;
+  @Field(() => String)
+  impUid: string;
 
   @Column()
+  @Field(() => Int)
+  amount: number;
+
+  @CreateDateColumn()
   @Field(() => Date)
-  paymentTime: Date;
+  createdAt: Date;
 
   @Column({
-    length: 10,
+    type: 'enum', // MySQL에 enum 타입임을 명시
+    enum: PAYMENT_STATUS_ENUM, // enum 타입 이름
   })
-  @Field(() => String)
-  paymentMethod: string;
+  @Field(() => PAYMENT_STATUS_ENUM)
+  status: PAYMENT_STATUS_ENUM;
 
-  @Column()
-  @Field(() => Boolean)
-  isDeliveryFree: boolean;
+  // @Column({
+  //   length: 10,
+  // })
+  // @Field(() => String)
+  // paymentMethod: string;
 
   @ManyToMany(() => Product, (products) => products.payments)
   @Field(() => [Product])
   products: Product[];
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User) // 결제 N : 유저 1, 유저 한명이 여러 거래기록을 가지고 있다.
   @Field(() => User)
   user: User;
 }

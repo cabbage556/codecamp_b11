@@ -6,19 +6,19 @@ type User {
   id: String!
   name: String!
   email: String!
-  phone: String!
-  address: String!
-  detailAddress: String!
+  phone: String
+  address: String
+  detailAddress: String
   latestAddress: String
   latestDetailAddress: String
 }
 
 type Payment {
   id: String!
-  totalPrice: Int!
-  paymentTime: DateTime!
-  paymentMethod: String!
-  isDeliveryFree: Boolean!
+  impUid: String!
+  amount: Int!
+  createdAt: DateTime!
+  status: PAYMENT_STATUS_ENUM!
   products: [Product!]!
   user: User!
 }
@@ -27,6 +27,11 @@ type Payment {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+enum PAYMENT_STATUS_ENUM {
+  PAYMENT
+  CANCEL
+}
 
 type MainCategory {
   id: String!
@@ -69,6 +74,7 @@ type Query {
 }
 
 type Mutation {
+  createPayment(impUid: String!, amount: Int!): Payment!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(productId: String!, updateProductInput: UpdateProductInput!): Product!
   deleteProduct(productId: String!): Boolean!
@@ -119,9 +125,9 @@ input CreateImageInput {
 input CreateUserInput {
   name: String!
   email: String!
-  phone: String!
-  address: String!
-  detailAddress: String!
+  phone: String
+  address: String
+  detailAddress: String
   latestAddress: String
   latestDetailAddress: String
   password: String

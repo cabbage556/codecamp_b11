@@ -6,12 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './apis/auth/auth.module';
 import { ImagesModule } from './apis/images/images.module';
 import { MainCategoriesModule } from './apis/mainCategories/mainCategories.module';
+import { PaymentsModule } from './apis/payments/payments.module';
 import { ProductsModule } from './apis/products/products.module';
 import { SubCategoriesModule } from './apis/subCategories/subCategories.module';
 import { UsersModule } from './apis/users/users.module';
 
 @Module({
   imports: [
+    PaymentsModule,
     ProductsModule,
     MainCategoriesModule,
     SubCategoriesModule,
@@ -36,7 +38,7 @@ import { UsersModule } from './apis/users/users.module';
       entities: [__dirname + '/apis/**/*.entity.*'], // __dirname: /Users/taeyoon/Desktop/codecamp-backend-class/homework/day18/src (파일 위치 절대 경로로 표현)
       logging: true,
       synchronize: true,
-      timezone: 'local',
+      timezone: '+09:00',
     }),
   ],
 })

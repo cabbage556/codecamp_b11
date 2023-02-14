@@ -16,7 +16,7 @@ export class AuthResolver {
     @Args('password') password: string, //
     @Context() context: IContext, //
   ): Promise<string> {
-    return this.authService.login({ email, password, context });
+    return this.authService.login({ email, password, res: context.res });
   }
 
   @UseGuards(GqlAuthGuard('refresh'))
