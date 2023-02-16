@@ -51,9 +51,7 @@ export class PaymentsService {
     context,
   }: IPaymentsServiceCreate): Promise<Payment> {
     // impUid 유효성 확인하기 -> impUid가 유효하지 않으면 UnprocessableEntityException
-    await this.iamportService.checkImpUidIsSame({
-      impUid,
-    });
+    await this.iamportService.checkImpUidIsSame({ impUid });
 
     // 이미 테이블에 추가된 거래기록인지 확인하기 -> 추가된 경우 ConflicException
     await this.checkPaymentAdded({ impUid });
@@ -92,9 +90,7 @@ export class PaymentsService {
   findOneByImpUid({
     impUid,
   }: IPaymentsServiceFindOneByImpUid): Promise<Payment> {
-    return this.paymentsRepository.findOne({
-      where: { impUid },
-    });
+    return this.paymentsRepository.findOne({ where: { impUid } });
   }
 
   async findOneCanceledPayment({

@@ -22,11 +22,7 @@ export class PaymentsResolver {
     amount: number, //
     @Context() context: IContext, // context.req.user 내부에 유저 id 존재
   ): Promise<Payment> {
-    return this.paymentsService.create({
-      impUid,
-      amount,
-      context,
-    });
+    return this.paymentsService.create({ impUid, amount, context });
   }
 
   @Mutation(() => Payment)
