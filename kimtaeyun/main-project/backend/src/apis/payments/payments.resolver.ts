@@ -24,4 +24,13 @@ export class PaymentsResolver {
   ): Promise<Payment> {
     return this.paymentsService.create({ impUid, amount, context });
   }
+
+  @Mutation(() => Payment)
+  @UseGuards(GqlAuthGuard('access'))
+  async cancelPayment(
+    @Args('impUid') impUid: string, //
+    @Context() context: IContext, //
+  ): Promise<Payment> {
+    return this.paymentsService.cancel({ impUid, context });
+  }
 }

@@ -55,7 +55,7 @@ export class AuthService {
     return this.jwtService.sign(
       // 페이로드
       { sub: user.id },
-      { secret: `${process.env.TOKEN_SECRET_KEY}`, expiresIn: '1h' },
+      { secret: `${process.env.TOKEN_SECRET_KEY}`, expiresIn: '1w' },
       // { secret: `${process.env.TOKEN_SECRET_KEY}`, expiresIn: '1m' }, // 테스트
     );
   }

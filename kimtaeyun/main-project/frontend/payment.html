@@ -19,7 +19,7 @@
         const myAmount = Number(document.getElementById("amount").value);
 
         const IMP = window.IMP; // 생략 가능
-        IMP.init("imp06828735"); // Example: imp00000000
+        IMP.init("imp06828735"); // 가맹점 코드
         IMP.request_pay(
           {
             // param
@@ -33,13 +33,13 @@
             buyer_addr: "서울특별시 강남구 신사동",
             buyer_postcode: "01181",
             m_redirect_url:
-              "http://localhost:5500/class/section12/12-01-point-transaction/frontend/payment.html", // 모바일 결제후 리다이렉트될 주소!!
+              "http://localhost:5500/main-project/frontend/payment.html", // 모바일 결제 후 리다이렉트 주소
           },
           async (rsp) => {
             // callback
             if (rsp.success) {
               // 결제 성공시
-              alert("결제가 성공했습니다.📌📌📌📌📌📌📌");
+              alert("결제가 성공했습니다.📌📌📌📌📌📌📌📌📌📌📌📌📌📌");
               console.log(rsp);
 
               const data = await axios.post(
@@ -47,7 +47,11 @@
                 {
                   query: `
                     mutation {
-                      createPayment(impUid: "${rsp.imp_uid}", amount: ${rsp.paid_amount}) {
+                      createPayment(
+                        impUid: "${rsp.imp_uid}"
+                        amount: ${rsp.paid_amount}
+                      ) 
+                      {
                         id
                         impUid
                         amount
@@ -60,7 +64,7 @@
                 {
                   headers: {
                     authorization:
-                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZTQ0M2UxMS1lZGIxLTQyNTktYTk3YS02NTk3ZjUyN2FmYTYiLCJpYXQiOjE2NzYzODI5MDgsImV4cCI6MTY3NjM4NjUwOH0.5KZka612kNm7NximHGlaB9BzIw56kiNyHK6nGu1CJ48",
+                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZTQ0M2UxMS1lZGIxLTQyNTktYTk3YS02NTk3ZjUyN2FmYTYiLCJpYXQiOjE2NzY0NDQ1NTgsImV4cCI6MTY3NzA0OTM1OH0.pB_PIfS1pOc4slX8iIpD0rbFlTEZ9gXGKQZCavcs8_Y",
                   },
                 }
               );
@@ -68,7 +72,7 @@
               console.log(data);
             } else {
               // 결제 실패시
-              alert("결제가 실패했습니다.😡😡😡😡😡😡😡😡😡😡");
+              alert("결제가 실패했습니다.😡😡😡😡😡😡😡😡😡😡😡😡😡😡");
             }
           }
         );
