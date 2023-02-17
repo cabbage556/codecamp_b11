@@ -30,7 +30,34 @@
 */
 
 function sortString(str) {
-  // 여기에서 작업하세요.
+  str = str.split(" ");
+  const sorted = new Array(str.length);
+  const sortNums = [];
+  const answer = [];
+
+  for (const el of str) {
+    sortNums.push(el.split("").sort()[0]);
+  }
+
+  for (const sortNum of sortNums) {
+    for (const el of str) {
+      if (el.includes(sortNum)) {
+        sorted[sortNum - 1] = el;
+      }
+    }
+  }
+
+  for (const string of sorted) {
+    let temp = "";
+
+    for (const char of string) {
+      if (isNaN(char)) temp += char;
+    }
+
+    answer.push(temp);
+  }
+
+  return answer.join(" ");
 }
 
 module.exports = sortString;

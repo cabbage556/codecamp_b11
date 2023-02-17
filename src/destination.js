@@ -60,7 +60,15 @@
 */
 
 function destination(paths) {
-  // 여기에서 작업하세요.
+  let last = paths[0][1];
+
+  for (let i = 1; i < paths.length; i++) {
+    if (paths[i][0] === last) {
+      last = paths[i][1];
+    }
+  }
+
+  return last;
 }
 
 module.exports = destination;

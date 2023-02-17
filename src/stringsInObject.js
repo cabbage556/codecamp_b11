@@ -45,7 +45,13 @@
 */
 
 function stringsInObject(obj) {
-  // 여기에서 작업하세요.
+  let answer = 0;
+
+  for (const key in obj) {
+    if (typeof obj[key] === "string") answer++;
+  }
+
+  return answer;
 }
 
 module.exports = stringsInObject;

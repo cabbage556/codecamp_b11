@@ -24,7 +24,7 @@
 */
 
 function triangle(a, b, c) {
-  // 여기에서 작업하세요.
+  return a ** 2 + b ** 2 === c ** 2 ? "right" : "wrong";
 }
 
 module.exports = triangle;
