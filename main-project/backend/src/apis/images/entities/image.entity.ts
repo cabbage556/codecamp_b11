@@ -9,9 +9,7 @@ export class Image {
   @Field(() => String)
   id: string;
 
-  @Column({
-    length: 100,
-  })
+  @Column()
   @Field(() => String)
   url: string;
 

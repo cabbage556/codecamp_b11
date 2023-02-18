@@ -39,7 +39,11 @@ export class ProductsResolver {
     @Args('productId') productId: string, //
     @Args('updateProductInput') updateProductInput: UpdateProductInput, //
   ): Promise<Product> {
-    return this.productsService.update({ productId, updateProductInput });
+    return this.productsService.update({
+      productId,
+      urls: updateProductInput.urls,
+      updateProductInput,
+    });
   }
 
   @Mutation(() => Boolean)
