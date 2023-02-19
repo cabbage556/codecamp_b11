@@ -11,13 +11,13 @@ export interface IProductsServiceCreate {
 
 export interface IProductsServiceUpdate {
   productId: string;
+  urls: string[];
   updateProductInput: UpdateProductInput;
 }
 
-export type IProductsServiceCheckPrice = Omit<
-  IProductsServiceUpdate,
-  'productId'
->;
+export interface IProductsServiceCheckPrice {
+  price: number;
+}
 
 export interface IProductsServiceDelete {
   productId: string;

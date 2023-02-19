@@ -28,4 +28,7 @@ export class CreateProductInput {
 
   @Field(() => String)
   subCategoryId: string;
+
+  @Field(() => [String])
+  urls: string[];
 }

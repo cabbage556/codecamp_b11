@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './apis/auth/auth.module';
+import { FilesModule } from './apis/files/files.module';
 import { IamportModule } from './apis/iamport/iamport.module';
 import { ImagesModule } from './apis/images/images.module';
 import { MainCategoriesModule } from './apis/mainCategories/mainCategories.module';
@@ -14,14 +15,15 @@ import { UsersModule } from './apis/users/users.module';
 
 @Module({
   imports: [
+    AuthModule,
+    FilesModule,
     IamportModule,
+    ImagesModule,
     PaymentsModule,
     ProductsModule,
     MainCategoriesModule,
     SubCategoriesModule,
-    ImagesModule,
     UsersModule,
-    AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/commons/graphql/schema.gql',

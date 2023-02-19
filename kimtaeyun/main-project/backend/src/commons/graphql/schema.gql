@@ -65,15 +65,24 @@ type Image {
 }
 
 type Query {
-  fetchProduct(productId: String!): Product
-  fetchProducts: [Product!]
-  fetchProductsWithDeleted: [Product!]!
   fetchUser(id: String!): User!
   fetchUsers: [User!]!
   fetchLoginUser: User!
+  fetchProduct(productId: String!): Product
+  fetchProducts: [Product!]
+  fetchProductsWithDeleted: [Product!]!
 }
 
 type Mutation {
+  login(email: String!, password: String!): String!
+  restoreAccessToken: String!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  deleteUser(id: String!): Boolean!
+  deleteLoginUser: Boolean!
+  updateUserPwd(password: String!): User!
+  uploadFile(files: [Upload!]!): [String!]!
+  createImage(createImageInput: CreateImageInput!): Image!
   createPayment(impUid: String!, amount: Int!): Payment!
   cancelPayment(impUid: String!): Payment!
   createProduct(createProductInput: CreateProductInput!): Product!
@@ -82,45 +91,6 @@ type Mutation {
   restoreProduct(productId: String!): Boolean!
   createMainCategory(name: String!): MainCategory!
   createSubCategory(createSubCategoryInput: CreateSubCategoryInput!): SubCategory!
-  createImage(createImageInput: CreateImageInput!): Image!
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
-  deleteUser(id: String!): Boolean!
-  deleteLoginUser: Boolean!
-  updateUserPwd(password: String!): User!
-  login(email: String!, password: String!): String!
-  restoreAccessToken: String!
-}
-
-input CreateProductInput {
-  name: String!
-  kcal: Float!
-  protein: Float!
-  fat: Float!
-  sugar: Float!
-  price: Int!
-  subCategoryId: String!
-}
-
-input UpdateProductInput {
-  name: String
-  kcal: Float
-  protein: Float
-  fat: Float
-  sugar: Float
-  price: Int
-  subCategoryId: String
-}
-
-input CreateSubCategoryInput {
-  name: String!
-  mainCategoryId: String!
-}
-
-input CreateImageInput {
-  url: String!
-  isMain: Boolean!
-  productId: String!
 }
 
 input CreateUserInput {
@@ -143,4 +113,40 @@ input UpdateUserInput {
   latestAddress: String
   latestDetailAddress: String
   password: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateImageInput {
+  url: String!
+  isMain: Boolean!
+  productId: String!
+}
+
+input CreateProductInput {
+  name: String!
+  kcal: Float!
+  protein: Float!
+  fat: Float!
+  sugar: Float!
+  price: Int!
+  subCategoryId: String!
+  urls: [String!]!
+}
+
+input UpdateProductInput {
+  name: String
+  kcal: Float
+  protein: Float
+  fat: Float
+  sugar: Float
+  price: Int
+  subCategoryId: String
+  urls: [String!]
+}
+
+input CreateSubCategoryInput {
+  name: String!
+  mainCategoryId: String!
 }
