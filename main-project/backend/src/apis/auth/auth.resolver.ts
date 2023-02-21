@@ -26,4 +26,12 @@ export class AuthResolver {
   ): string {
     return this.authService.restoreAccessToken({ user: context.req.user });
   }
+
+  @UseGuards(GqlAuthGuard('access'))
+  @Mutation(() => String)
+  async logout(
+    @Context() context: IContext, //
+  ): Promise<string> {
+    return await this.authService.verifyToken({ req: context.req });
+  }
 }

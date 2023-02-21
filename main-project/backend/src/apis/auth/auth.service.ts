@@ -1,4 +1,10 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  CACHE_MANAGER,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -8,7 +14,10 @@ import {
   IAuthServiceRestoreAccessToken,
   IAuthServiceSetRefreshToken,
   IAuthServiceSocialLogin,
+  IAuthServiceVerifyToken,
 } from './interfaces/auth-service.interface';
+import { Cache } from 'cache-manager';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +26,8 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService, //
     private readonly jwtService: JwtService, //
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache, //
   ) {}
 
   async socialLogin({ req, res }: IAuthServiceSocialLogin): Promise<void> {
@@ -84,5 +95,36 @@ export class AuthService {
     // 📌📌📌개발환경에서만📌📌📌
     // 리프레시토큰을 브라우저에 전달(응답 헤더)
     res.setHeader('set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+  }
+
+  async verifyToken({ req }: IAuthServiceVerifyToken): Promise<string> {
+    try {
+      const accessToken = req.headers.authorization.replace('Bearer ', '');
+      const refreshToken = req.headers.cookie.replace('refreshToken=', '');
+      const accTokenResult = jwt.verify(
+        accessToken,
+        process.env.TOKEN_SECRET_KEY,
+      );
+      const refTokenResult = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_SECRET_KEY,
+      );
+
+      await this.cacheManager.set(`accessToken:${accessToken}`, 'accessToken', {
+        ttl: accTokenResult['exp'] - accTokenResult['iat'],
+      });
+      await this.cacheManager.set(
+        `refreshToken:${refreshToken}`,
+        'refreshToken',
+        {
+          ttl: refTokenResult['exp'] - refTokenResult['iat'],
+        },
+      );
+
+      return '로그아웃에 성공했습니다.';
+    } catch (error) {
+      console.log('😡😡😡토큰검증실패😡😡😡');
+      throw new UnauthorizedException();
+    }
   }
 }

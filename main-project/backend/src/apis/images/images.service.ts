@@ -1,12 +1,19 @@
 import { Storage } from '@google-cloud/storage';
-import { Injectable } from '@nestjs/common';
+import { ApiError } from '@google-cloud/storage/build/src/nodejs-common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InsertResult, Repository } from 'typeorm';
 import { Image } from './entities/image.entity';
 import {
+  IImagesServiceBulkInsert,
   IImagesServiceCreate,
   IImagesServiceCreateMany,
-  IImagesServiceCreateNonExistingImages,
   IImagesServiceDeleteAllAndCreateMany,
   IImagesServiceDeleteByProductId,
   IImagesServiceDeleteImageInBucket,
@@ -14,6 +21,7 @@ import {
   IImagesServiceFilterImagesAndCreate,
   IImagesServiceFindAllByProductId,
   IImagesServiceGetUrlObj,
+  IImagesServiceSaveNonExistingImages,
   Url,
 } from './interface/images-service.interface';
 
@@ -35,10 +43,25 @@ export class ImagesService {
     return result;
   }
 
+  findAllByProductId({
+    productId,
+  }: IImagesServiceFindAllByProductId): Promise<Image[]> {
+    return this.imagesRepository.find({
+      where: { product: { id: productId } },
+    });
+  }
+
+  async deleteAllByProductId({
+    productId,
+  }: IImagesServiceDeleteByProductId): Promise<void> {
+    const products = await this.findAllByProductId({ productId });
+    await this.imagesRepository.remove(products); // 엔티티 배열 전달하여 한번에 삭제하기
+  }
+
   async createMany({
     urls,
     productId,
-  }: IImagesServiceCreateMany): Promise<void> {
+  }: IImagesServiceCreateMany): Promise<Image[]> {
     const images: Image[] = urls.map((url) => {
       return this.imagesRepository.create({
         isMain: false,
@@ -48,32 +71,21 @@ export class ImagesService {
         },
       });
     });
-    this.imagesRepository.save(images);
+    return images;
   }
 
-  async deleteAllByProductId({
-    productId,
-  }: IImagesServiceDeleteByProductId): Promise<boolean> {
-    const deleteResult = await this.imagesRepository.delete({
-      product: { id: productId },
-    });
-    return deleteResult.affected ? true : false;
+  bulkInsert({ images }: IImagesServiceBulkInsert): Promise<InsertResult> {
+    return this.imagesRepository.insert([...images]);
   }
 
+  // 1번 로직
   async deleteAllAndCreateMany({
     urls,
     productId,
   }: IImagesServiceDeleteAllAndCreateMany): Promise<void> {
     await this.deleteAllByProductId({ productId }); // 이미지 테이블에서 상품 id가 일치하는 데이터 모두 삭제
-    await this.createMany({ urls, productId }); // 새로운 이미지 url로 데이터 생성
-  }
-
-  findAllByProductId({
-    productId,
-  }: IImagesServiceFindAllByProductId): Promise<Image[]> {
-    return this.imagesRepository.find({
-      where: { product: { id: productId } },
-    });
+    const images = await this.createMany({ urls, productId }); // 새로운 이미지 url로 데이터 생성
+    await this.bulkInsert({ images }); // 데이터 한번에 넣기
   }
 
   getUrlObj({ urls, images }: IImagesServiceGetUrlObj): Url {
@@ -86,17 +98,28 @@ export class ImagesService {
     return urlObj;
   }
 
-  async createNonExistingImages({
+  async saveNonExistingImages({
     urlObj,
     productId,
-  }: IImagesServiceCreateNonExistingImages): Promise<void> {
+  }: IImagesServiceSaveNonExistingImages): Promise<void> {
     const urls = [];
 
     for (const url in urlObj) {
       if (isNaN(urlObj[url])) urls.push(url); // 값이 NaN인 경우 이미지 테이블에 새롭게 추가
     }
 
-    await this.createMany({ urls, productId });
+    console.log(`saveNonExistingImages urls: ${urls}`);
+
+    const images = await this.createMany({ urls, productId });
+    await this.bulkInsert({ images });
+  }
+
+  handleDeleteError(error) {
+    console.log(`handelDeleteError`);
+    throw new HttpException(
+      error.response.statusMessage,
+      error.response.statusCode,
+    );
   }
 
   async deleteImageInBucket({
@@ -107,28 +130,39 @@ export class ImagesService {
     const storage = new Storage({
       projectId: process.env.GCP_PROJECT_ID,
       keyFilename: process.env.GCP_KEY_FILENAME,
-    }).bucket(process.env.GCP_BUCKET_NAME);
-
-    urls.forEach(async (url) => {
-      try {
-        const filename = url.replace(process.env.GCP_BUCKET_NAME + '/', ''); // url: '버킷이름/이미지파일이름' 에서 '버킷이름/'를 ''로 대체
-        await storage.file(filename).delete();
-      } catch (error) {
-        console.log('😡😡버킷에서 파일 삭제 실패😡😡😡');
-        console.log(error);
-      }
     });
+    const originFolderName = 'origin';
+
+    for (let i = 0; i < urls.length; i++) {
+      const url = urls[i];
+      // url: '버킷이름/origin/이미지파일이름' 에서 '버킷이름/origin/'를 ''로 대체
+      const filename = url.replace(
+        `${process.env.GCP_BUCKET_NAME}/${originFolderName}/`,
+        '',
+      );
+      await storage
+        .bucket(process.env.GCP_BUCKET_NAME)
+        .file(`${originFolderName}/${filename}`)
+        .delete();
+    }
   }
 
   deleteImagesByUrls({ urlObj }: IImagesServiceDeleteImagesByUrls): void {
     const urls: string[] = [];
 
     for (const url in urlObj) {
-      if (urlObj[url] === 1) urls.push(url); // 이미 테이블에 있는 이미지이지만 업데이트할 이미지에 포함되지 않는 경우 getUrlObj 메서드에서 값을 1로 갖는 프로퍼티가 됨
+      // 이미 테이블에 있는 이미지이지만 업데이트할 이미지에 포함되지 않는 경우 getUrlObj 메서드에서 값을 1로 갖는 프로퍼티가 됨
+      if (urlObj[url] === 1) urls.push(url);
     }
 
+    console.log(`deleteImagesByUrls urls: ${urls}`);
+
     urls.forEach((url) => this.imagesRepository.delete({ url }));
-    this.deleteImageInBucket({ urls });
+    this.deleteImageInBucket({ urls }).catch((error) => {
+      console.log('deleteImageInBucket');
+      console.log(error);
+      // throw new HttpException(error.response, error.status);
+    }); // 이미지 테이블에서 데이터를 삭제할 때 스토리지에 있는 실제 이미지 파일도 삭제
   }
 
   async filterImagesAndCreate({
@@ -141,7 +175,7 @@ export class ImagesService {
     // 3. 이미 테이블에 있는 이미지면 유지합니다.
     // 4. 기존에 없는 이미지면서 클라이언트가 보내준 이미지면 데이터를 새로 생성합니다.
     const urlObj = this.getUrlObj({ urls, images });
-    this.createNonExistingImages({ urlObj, productId });
+    this.saveNonExistingImages({ urlObj, productId });
 
     // 5. 해당 안되는 기존 이미지는 제거합니다.
     this.deleteImagesByUrls({ urlObj });

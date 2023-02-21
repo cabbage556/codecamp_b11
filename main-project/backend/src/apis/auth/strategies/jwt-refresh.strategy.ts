@@ -1,8 +1,13 @@
+import { CACHE_MANAGER, Inject, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { Cache } from 'cache-manager';
 import { Strategy } from 'passport-jwt';
 
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
-  constructor() {
+  constructor(
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache, //
+  ) {
     super({
       jwtFromRequest: (req) => {
         console.log('📌📌📌📌📌📌📌📌📌📌📌📌📌');
@@ -15,13 +20,26 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
         return refreshToken;
       }, // 리프레시토큰
       secretOrKey: process.env.REFRESH_SECRET_KEY, // 비밀키
+      passReqToCallback: true,
     });
   }
 
-  validate(payload) {
+  async validate(req, payload) {
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌`);
+    console.dir(req);
+    console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌`);
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌`);
     console.dir(payload);
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌`);
+
+    const refreshToken = req.headers.cookie.replace('refreshToken=', '');
+    const cachedRefToken = await this.cacheManager.get(
+      `refreshToken:${refreshToken}`,
+    );
+
+    if (cachedRefToken) {
+      throw new UnauthorizedException();
+    }
 
     return {
       id: payload.sub,

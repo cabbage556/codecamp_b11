@@ -26,3 +26,7 @@ export interface IAuthServiceSocialLogin {
   req: Request & IOAuthUser;
   res: Response;
 }
+
+export interface IAuthServiceVerifyToken {
+  req: Request;
+}
