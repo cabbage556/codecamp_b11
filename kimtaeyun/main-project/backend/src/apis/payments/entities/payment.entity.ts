@@ -58,7 +58,7 @@ export class Payment {
   // 연결의 중심이 결제 테이블 => 결제 테이블에 상품id(FK)가 존재한다.
   // 결제 입장에서 상품과의 관계가 1 대 1이다.
   // @JoinColumn()
-  // @OneToOne(() => Product)  // 한쪽에만 사용할 수도 있다. (양쪽도 가능)
+  // @OneToOne(() => Product, (product) => product.payment)  // 한쪽에만 사용할 수도 있다. (양쪽도 가능)
   // @Field(() => Product)
   // product: Product;
 

@@ -1,3 +1,4 @@
+import { ApiError } from '@google-cloud/storage/build/src/nodejs-common';
 import { Catch, ExceptionFilter, HttpException } from '@nestjs/common';
 
 @Catch(HttpException)

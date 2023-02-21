@@ -5,6 +5,10 @@ export interface IImagesServiceCreate {
   createImageInput: CreateImageInput;
 }
 
+export interface IImagesServiceBulkInsert {
+  images: Image[];
+}
+
 export interface IImagesServiceCreateMany {
   urls: string[];
   productId: string;
@@ -32,7 +36,7 @@ export interface IImagesServiceGetUrlObj {
   images: Image[];
 }
 
-export interface IImagesServiceCreateNonExistingImages {
+export interface IImagesServiceSaveNonExistingImages {
   urlObj: Url;
   productId: string;
 }

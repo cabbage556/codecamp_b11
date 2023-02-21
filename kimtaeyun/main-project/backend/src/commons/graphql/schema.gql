@@ -54,6 +54,7 @@ type Product {
   price: Int!
   subCategory: SubCategory
   payments: [Payment!]
+  images: [Image!]!
   deletedAt: DateTime
 }
 
@@ -76,6 +77,7 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
+  logout: String!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   deleteUser(id: String!): Boolean!

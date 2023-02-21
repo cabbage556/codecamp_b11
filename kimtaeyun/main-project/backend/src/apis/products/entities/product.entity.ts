@@ -1,4 +1,5 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
+import { Image } from 'src/apis/images/entities/image.entity';
 import { Payment } from 'src/apis/payments/entities/payment.entity';
 import { SubCategory } from 'src/apis/subCategories/entities/subCategory.entity';
 import {
@@ -9,6 +10,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -72,6 +74,10 @@ export class Product {
   @ManyToMany(() => Payment, (payments) => payments.products)
   @Field(() => [Payment], { nullable: true })
   payments: Payment[];
+
+  @OneToMany(() => Image, (images) => images.product)
+  @Field(() => [Image])
+  images: Image[];
 
   @DeleteDateColumn()
   @Field(() => Date, { nullable: true })
