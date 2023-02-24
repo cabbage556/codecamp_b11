@@ -15,7 +15,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
         console.log('📌📌📌📌📌📌📌📌📌📌📌📌📌');
 
         // req: @UseGuards에 들어온 http 요청
-        const cookie = req.headers.cookie; // refreshToken=lmdfldmfldkamflfald
+        const cookie = req.headers.cookie; // refreshToken=nrlkrnrklrn~~
         const refreshToken = cookie.replace('refreshToken=', '');
         return refreshToken;
       }, // 리프레시토큰
@@ -26,7 +26,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
 
   async validate(req, payload) {
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.dir(req);
+    console.dir(req.headers.cookie);
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌`);
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌`);
     console.dir(payload);
@@ -38,6 +38,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
     );
 
     if (cachedRefToken) {
+      console.error('레디스에 리프레시 토큰이 이미 저장되어 있음');
       throw new UnauthorizedException();
     }
 

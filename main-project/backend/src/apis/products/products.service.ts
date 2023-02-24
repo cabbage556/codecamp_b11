@@ -1,6 +1,5 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { log } from 'console';
 import { Repository } from 'typeorm';
 import { ImagesService } from '../images/images.service';
 import { Product } from './entities/product.entity';
@@ -24,13 +23,13 @@ export class ProductsService {
   findOne({ productId }: IProductsServiceFindOne): Promise<Product> {
     return this.productsRepository.findOne({
       where: { id: productId },
-      relations: ['subCategory', 'subCategory.mainCategory'], // 3 entity join
+      relations: ['subCategory', 'subCategory.mainCategory', 'images'], // 3 entity join
     });
   }
 
   findAll(): Promise<Product[]> {
     return this.productsRepository.find({
-      relations: ['subCategory', 'subCategory.mainCategory'], // 3 entity join
+      relations: ['subCategory', 'subCategory.mainCategory', 'images'], // 3 entity join
     });
   }
 
@@ -59,7 +58,11 @@ export class ProductsService {
     });
 
     // 이미지 테이블에 추가하기
-    this.imagesService.createMany({ urls, productId: result.id });
+    const images = await this.imagesService.createMany({
+      urls,
+      productId: result.id,
+    });
+    this.imagesService.bulkInsert({ images });
 
     return result;
   }
@@ -81,7 +84,10 @@ export class ProductsService {
     // this.imagesService.deleteAllAndCreateMany({ urls, productId: result.id });
 
     // 2번 로직
-    this.imagesService.filterImagesAndCreate({ urls, productId: result.id });
+    await this.imagesService.filterImagesAndCreate({
+      urls,
+      productId: result.id,
+    });
 
     return result;
   }

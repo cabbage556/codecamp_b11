@@ -29,9 +29,9 @@ export class AuthResolver {
 
   @UseGuards(GqlAuthGuard('access'))
   @Mutation(() => String)
-  async logout(
+  logout(
     @Context() context: IContext, //
   ): Promise<string> {
-    return await this.authService.verifyToken({ req: context.req });
+    return this.authService.logout({ req: context.req });
   }
 }

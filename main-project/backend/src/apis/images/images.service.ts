@@ -114,40 +114,37 @@ export class ImagesService {
     await this.bulkInsert({ images });
   }
 
-  handleDeleteError(error) {
-    console.log(`handelDeleteError`);
-    throw new HttpException(
-      error.response.statusMessage,
-      error.response.statusCode,
-    );
-  }
-
   async deleteImageInBucket({
     urls,
   }: IImagesServiceDeleteImageInBucket): Promise<void> {
+    if (!urls) return;
     // https://github.com/googleapis/nodejs-storage/blob/main/samples/deleteFile.js
     // 이미지 테이블에서 데이터를 삭제할 때 스토리지에 있는 실제 이미지 파일도 삭제하는 로직
     const storage = new Storage({
       projectId: process.env.GCP_PROJECT_ID,
       keyFilename: process.env.GCP_KEY_FILENAME,
     });
-    const originFolderName = 'origin';
 
-    for (let i = 0; i < urls.length; i++) {
-      const url = urls[i];
-      // url: '버킷이름/origin/이미지파일이름' 에서 '버킷이름/origin/'를 ''로 대체
-      const filename = url.replace(
-        `${process.env.GCP_BUCKET_NAME}/${originFolderName}/`,
-        '',
+    // Promise.all로 한번에 잡기 -> 훨씬 편한것 같음
+    await Promise.all(
+      urls.map((url) => {
+        const filename = url.split(`${process.env.GCP_BUCKET_NAME}/`)[1];
+        return storage
+          .bucket(process.env.GCP_BUCKET_NAME)
+          .file(filename)
+          .delete();
+      }),
+    ).catch((error) => {
+      throw new HttpException(
+        error.response.statusMessage,
+        error.response.statusCode,
       );
-      await storage
-        .bucket(process.env.GCP_BUCKET_NAME)
-        .file(`${originFolderName}/${filename}`)
-        .delete();
-    }
+    });
   }
 
-  deleteImagesByUrls({ urlObj }: IImagesServiceDeleteImagesByUrls): void {
+  async deleteImagesByUrls({
+    urlObj,
+  }: IImagesServiceDeleteImagesByUrls): Promise<void> {
     const urls: string[] = [];
 
     for (const url in urlObj) {
@@ -158,11 +155,7 @@ export class ImagesService {
     console.log(`deleteImagesByUrls urls: ${urls}`);
 
     urls.forEach((url) => this.imagesRepository.delete({ url }));
-    this.deleteImageInBucket({ urls }).catch((error) => {
-      console.log('deleteImageInBucket');
-      console.log(error);
-      // throw new HttpException(error.response, error.status);
-    }); // 이미지 테이블에서 데이터를 삭제할 때 스토리지에 있는 실제 이미지 파일도 삭제
+    await this.deleteImageInBucket({ urls });
   }
 
   async filterImagesAndCreate({
@@ -178,6 +171,14 @@ export class ImagesService {
     this.saveNonExistingImages({ urlObj, productId });
 
     // 5. 해당 안되는 기존 이미지는 제거합니다.
-    this.deleteImagesByUrls({ urlObj });
+    await this.deleteImagesByUrls({ urlObj });
+  }
+
+  handleDeleteError(error) {
+    // 에러 deleteImageInBucket -> deleteImagesByUrls -> filterImagesAndCreate -> update (products.services.ts)
+    throw new HttpException(
+      error.response.statusMessage,
+      error.response.statusCode,
+    );
   }
 }

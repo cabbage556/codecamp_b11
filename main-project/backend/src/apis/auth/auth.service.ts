@@ -11,9 +11,11 @@ import { JwtService } from '@nestjs/jwt';
 import {
   IAuthServiceGetAccessToken,
   IAuthServiceLogin,
+  IAuthServiceLogout,
   IAuthServiceRestoreAccessToken,
   IAuthServiceSetRefreshToken,
   IAuthServiceSocialLogin,
+  IAuthServiceTokenSaveInRedis,
   IAuthServiceVerifyToken,
 } from './interfaces/auth-service.interface';
 import { Cache } from 'cache-manager';
@@ -66,8 +68,8 @@ export class AuthService {
     return this.jwtService.sign(
       // 페이로드
       { sub: user.id },
-      { secret: `${process.env.TOKEN_SECRET_KEY}`, expiresIn: '1w' },
-      // { secret: `${process.env.TOKEN_SECRET_KEY}`, expiresIn: '1m' }, // 테스트
+      { secret: process.env.TOKEN_SECRET_KEY, expiresIn: '1h' },
+      // { secret: process.env.TOKEN_SECRET_KEY, expiresIn: '1m' }, // 테스트
     );
   }
 
@@ -84,12 +86,11 @@ export class AuthService {
     // 리프레시 토큰 생성
     const refreshToken = this.jwtService.sign(
       { sub: user.id },
-      { secret: `${process.env.REFRESH_SECRET_KEY}`, expiresIn: '2w' },
+      { secret: process.env.REFRESH_SECRET_KEY, expiresIn: '1d' },
     );
 
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
-    console.log('refreshToken in setRefreshToken');
-    console.log(`${refreshToken}`);
+    console.log(`refreshToken - ${refreshToken}`);
     console.log(`📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌`);
 
     // 📌📌📌개발환경에서만📌📌📌
@@ -97,34 +98,58 @@ export class AuthService {
     res.setHeader('set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
 
-  async verifyToken({ req }: IAuthServiceVerifyToken): Promise<string> {
+  async saveTokenInRedis({
+    token,
+    tokenResult,
+    isAccessToken,
+  }: IAuthServiceTokenSaveInRedis): Promise<void> {
+    const key = isAccessToken ? 'accessToken' : 'refreshToken';
+    await this.cacheManager.set(
+      `${key}:${token}`, // key
+      key, // value
+      { ttl: tokenResult['exp'] - Math.trunc(new Date().valueOf() / 1000) }, // ttl = 토큰만료시간(초) - 현재시간(초)
+    );
+  }
+
+  verifyToken({
+    token,
+    secretKey,
+  }: IAuthServiceVerifyToken): string | jwt.JwtPayload {
     try {
-      const accessToken = req.headers.authorization.replace('Bearer ', '');
-      const refreshToken = req.headers.cookie.replace('refreshToken=', '');
-      const accTokenResult = jwt.verify(
-        accessToken,
-        process.env.TOKEN_SECRET_KEY,
-      );
-      const refTokenResult = jwt.verify(
-        refreshToken,
-        process.env.REFRESH_SECRET_KEY,
-      );
-
-      await this.cacheManager.set(`accessToken:${accessToken}`, 'accessToken', {
-        ttl: accTokenResult['exp'] - accTokenResult['iat'],
-      });
-      await this.cacheManager.set(
-        `refreshToken:${refreshToken}`,
-        'refreshToken',
-        {
-          ttl: refTokenResult['exp'] - refTokenResult['iat'],
-        },
-      );
-
-      return '로그아웃에 성공했습니다.';
+      const tokenResult = jwt.verify(token, secretKey);
+      return tokenResult;
     } catch (error) {
-      console.log('😡😡😡토큰검증실패😡😡😡');
+      console.error('😡😡😡토큰검증실패😡😡😡');
       throw new UnauthorizedException();
     }
+  }
+
+  async logout({ req }: IAuthServiceLogout): Promise<string> {
+    const accessToken = req.headers.authorization.replace('Bearer ', '');
+    const refreshToken = req.headers.cookie.replace('refreshToken=', '');
+
+    // 액세스토큰, 리프레시토큰 유효성 검증하기
+    const accTokenResult = this.verifyToken({
+      token: accessToken,
+      secretKey: process.env.TOKEN_SECRET_KEY,
+    });
+    const refTokenResult = this.verifyToken({
+      token: refreshToken,
+      secretKey: process.env.REFRESH_SECRET_KEY,
+    });
+
+    // 로그아웃 시 사용한 액세스토큰, 리프레시토큰 레디스에 저장하기
+    await this.saveTokenInRedis({
+      token: accessToken,
+      tokenResult: accTokenResult,
+      isAccessToken: true,
+    });
+    await this.saveTokenInRedis({
+      token: refreshToken,
+      tokenResult: refTokenResult,
+      isAccessToken: false,
+    });
+
+    return '로그아웃에 성공했습니다.';
   }
 }

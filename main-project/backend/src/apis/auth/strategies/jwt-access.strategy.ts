@@ -29,6 +29,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
     );
 
     if (cachedAccToken) {
+      console.error('레디스에 액세스 토큰이 이미 저장되어 있음');
       throw new UnauthorizedException();
     }
 
