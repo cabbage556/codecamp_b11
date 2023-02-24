@@ -32,7 +32,10 @@
 */
 
 function rotateArray(belt, sec) {
-  // 여기에서 작업하세요.
+  for (let i = 0; i < sec; i++) {
+    belt.unshift(belt.pop()); // 반복마다 가장 오른쪽 요소를 가장 앞에 넣기
+  }
+  return belt;
 }
 
 module.exports = rotateArray;

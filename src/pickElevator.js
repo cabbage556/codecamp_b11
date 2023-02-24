@@ -39,7 +39,10 @@
 */
 
 function pickElevator(left, right, call) {
-  // 여기에서 작업하세요.
+  const leftFloor = Math.abs(left - call); // 왼쪽 엘리베이터 남은 층
+  const rightFloor = Math.abs(right - call); // 오른쪽 엘리베이터 남은 층
+
+  return leftFloor < rightFloor ? "left" : "right";
 }
 
 module.exports = pickElevator;

@@ -21,10 +21,15 @@
 
     case1:
       palindrome('abcde')
+      eabcde
+      edabcde
+      edcabcde
+      edcbabcde
 
     case2:
       palindrome('abcbac')
-
+      abcbac
+      cabcbac
     case3:
       palindrome('zxcxz')
 
@@ -43,7 +48,35 @@
 */
 
 function palindrome(str) {
-  // 여기에서 작업하세요.
+  // 팰린드롬 확인 함수
+  function isPalindrome(str) {
+    for (let i = 0; i < str.length / 2; i++) {
+      if (str[i] !== str[str.length - 1 - i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // 팰린드롬이면 그대로 리턴
+  if (isPalindrome(str)) {
+    return str;
+  }
+
+  str = str.split("");
+
+  let count = 0;
+  let strLength = str.length;
+  for (let i = Math.trunc(strLength / 2); i < strLength; i++) {
+    str.splice(count, 0, str[str.length - 1]);
+    str = str.join("");
+    count++;
+
+    if (isPalindrome(str)) {
+      return str;
+    }
+    str = str.split("");
+  }
 }
 
 module.exports = palindrome;
