@@ -1,0 +1,26 @@
+version: '3.7'
+
+# 컴퓨터들
+services:
+  # 컴퓨터이름
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # volumes:
+    #   # 볼륨 공유
+    #   - ./src:/myfolder/src
+    ports:
+      - 3000:3000 # 포트포워딩
+    env_file:
+      - ./.env.prod # 도커 실행 시 환경변수는 .env.docker를 사용함
+
+  # 컴퓨터이름(네임리졸루션)
+  # my-database:
+  #   # platform: linux/86_64
+  #   image: mysql:latest
+  #   environment: # MySQL 설치 시 초기 설정을 위한 곳
+  #     MYSQL_DATABASE: 'mydocker' # 컨테이너 실행 후 MySQL에 'mydocker' DB 생성됨
+  #     MYSQL_ROOT_PASSWORD: 'root' # 비밀번호 등록
+  #   ports:
+  #     - 3306:3306

@@ -1,8 +1,3 @@
-// "dependencies": {
-//   "@google-cloud/storage": "^5.18.1",
-//   "sharp": "^0.30.1"
-// }
-
 const { Storage } = require("@google-cloud/storage"); // package.json 확인
 const sharp = require("sharp");
 
