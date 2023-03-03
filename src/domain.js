@@ -9,7 +9,6 @@
     'kr'은 최상위 도메인 혹은 1차 도메인,
     'co.kr'을 2차 도메인,
     최하위 도메인인 'codebootcamp.co.kr'을 3차 도메인이라 합니다.
-    
 
     배열 domainList가 주어집니다. domainList의 요소는 문자열로 아래와 같은 구조로 되어 있습니다.
 
@@ -50,7 +49,35 @@
 */
 
 function domain(domainList) {
-  // 여기에서 작업하세요.
+  const answer = [];
+  const domainObj = {};
+
+  for (const idx in domainList) {
+    const [visitCount, domain] = domainList[idx].split(" ");
+    const [first, second, third] = domain.split(".").reverse();
+
+    domainObj[first] = domainObj[first] || 0;
+    domainObj[`${second}.${first}`] = domainObj[`${second}.${first}`] || 0;
+
+    if (third) {
+      domainObj[`${third}.${second}.${first}`] =
+        domainObj[`${third}.${second}.${first}`] || 0;
+    }
+  }
+
+  for (const key in domainObj) {
+    for (const idx in domainList) {
+      const [visitCount, domain] = domainList[idx].split(" ");
+
+      if (domain.includes(key)) {
+        domainObj[key] += visitCount * 1;
+      }
+    }
+
+    answer.push(`${domainObj[key]} ${key}`);
+  }
+
+  return answer;
 }
 
 module.exports = domain;

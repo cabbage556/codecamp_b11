@@ -35,7 +35,20 @@
 */
 
 function rotateString(str, goal) {
-  // 여기에서 작업하세요.
+  if (str === goal) {
+    return true;
+  }
+
+  for (let i = 0; i < str.length; i++) {
+    const rotateStr =
+      str.slice(str.length - i - 1) + str.slice(0, str.length - i - 1);
+
+    if (rotateStr === goal) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 module.exports = rotateString;

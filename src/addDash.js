@@ -31,7 +31,17 @@
 */
 
 function addDash(str) {
-  // 여기에서 작업하세요.
+  let answer = "";
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === str[i + 1]) {
+      answer += str[i] + "-";
+    } else {
+      answer += str[i];
+    }
+  }
+
+  return answer;
 }
 
 module.exports = addDash;

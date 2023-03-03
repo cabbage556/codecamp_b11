@@ -54,7 +54,25 @@
  */
 
 const christmasPresent = function (childs) {
-  // 여기에서 작업하세요.
+  const answer = new Array(childs.length).fill(1);
+
+  for (let i = 0; i < childs.length; i++) {
+    if (childs[i + 1] !== undefined) {
+      // 현재 아이가 다음 이웃집 아이보다 착한일을 많이 했고 다음 이웃집 아이보다 선물이 적은 경우 선물을 하나 더준다.
+      if (childs[i] > childs[i + 1] && answer[i] <= answer[i + 1]) {
+        answer[i]++;
+      }
+    }
+
+    if (childs[i - 1] !== undefined) {
+      // 현재 아이가 이전 이웃집 아이보다 착한일을 많이 했고 이전 이웃집 아이보다 선물이 적은 경우 선물을 하나 더준다.
+      if (childs[i] > childs[i - 1] && answer[i] <= answer[i - 1]) {
+        answer[i]++;
+      }
+    }
+  }
+
+  return answer.reduce((acc, cur) => acc + cur, 0);
 };
 
 module.exports = christmasPresent;
