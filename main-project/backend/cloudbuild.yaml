@@ -28,7 +28,7 @@ steps:
     args:
       - set
       - image
-      - deployment/my-main-project
+      - deployment/my-main-project-nestjs
       - my-main-project-nestjs-sha256-1=asia.gcr.io/backend-377405/my-main-project-nestjs:1.5
 
     # 환경변수 설정(클러스터 클라우드 쉘 입력 시 입력한 값들 설정하는 것)
