@@ -1,0 +1,66 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>이벤트루프</title>
+    <script>
+      const onClickLoop = () => {
+        console.log("시작!!!");
+
+        // 비동기작업(매크로큐에 들어감) - 오래 기다리는 작업
+        // setTimeout 함수의 콜백함수가 매크로큐에 들어간다.
+        setTimeout(() => {
+          // 비동기작업(마이크로큐에 들어감) - 오래 기다리는 작업
+          // then 메서드의 콜백함수가 마이크로큐에 들어간다.
+          new Promise((resolve) =>
+            resolve("첫 번째 프로미스 resolve 리턴")
+          ).then(() => {
+            console.log("Promise(setTimeout 안에서 실행됩니다!!!)");
+          });
+          console.log(
+            "setTimeout!!! 매크로큐에 들어감!!! 0초 뒤에 실행될 거에요!!"
+          );
+        }, 0);
+
+        // 비동기작업(마이크로큐에 들어감) - 오래 기다리는 작업
+        // then 메서드의 콜백함수가 마이크로큐에 들어간다.
+        new Promise((resolve) => resolve("첫 번째 프로미스 resolve 리턴")).then(
+          () => {
+            console.log(
+              "Promise(1)!!! 마이크로큐에 들어감!!! 0초 뒤에 실행됩니다!!!"
+            );
+          }
+        );
+
+        // 비동기작업(매크로큐에 들어감) - 오래 기다리는 작업
+        // setInterval 함수의 콜백함수가 매크로큐에 들어간다.
+        setInterval(() => {
+          console.log(
+            "setInterval 콜백함수!!! 매크로큐에 들어감!!! 0초마다 실행됩니다!!!"
+          );
+        }, 0);
+
+        // for - 오래 걸리는 작업
+        let sum = 0;
+        for (let i = 0; i < 9000000000; i++) {
+          sum++;
+        }
+
+        // 비동기작업(마이크로큐에 들어감) - 오래 기다리는 작업
+        // then 메서드의 콜백함수가 마이크로큐에 들어간다.
+        new Promise((resolve) => resolve("두 번째 프로미스 resolve 리턴")).then(
+          () => {
+            console.log(
+              "Promise(2)!!! 마이크로큐에 들어감!!! 0초 뒤에 실행됩니다!!!"
+            );
+          }
+        );
+
+        console.log("끝!!!");
+      };
+    </script>
+  </head>
+  <body>
+    <button onclick="onClickLoop()">시작하기</button>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+FROM node:14
+
+COPY ./package.json /main-project/
+COPY ./yarn.lock /main-project/
+WORKDIR /main-project/
+
+# dependencies만 설치
+RUN yarn install --production
+
+COPY . /main-project/
+
+# dist 폴더 생성
+RUN yarn build
+
+# dist 폴더의 main.js 파일 실행
+CMD yarn start:prod

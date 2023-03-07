@@ -1,0 +1,38 @@
+# gcp-cloudbuild용 yaml 파일
+
+# 1. docker-compose -f docker-compose.prod.yaml build
+# 2. docker-compose -f docker-compose.prod.yaml push
+# 3. kubectl set image deployment/배포이름 컨테이너이름=이미지업로드주소/프로젝트ID/이미지저장폴더이름:버전
+# 3. kubectl set image deployment/my-main-project my-main-project-nestjs-sha256-1=asia.gcr.io/backend-377405/my-main-project-nestjs:1.5
+
+# cloudbuild에서 명령어 실행
+steps:
+  # 1
+  # name: docker/compose:1.29.0 - docker/compose:1.29.0 버전 다운로드받아 docker-compose 명령어 실행한다.
+  # main-project/backend/docker-compose.prod.yaml - 도커컴포즈 yaml 파일 경로 설정
+  - name: docker/compose:1.29.0
+    args:
+      - -f
+      - main-project/backend/docker-compose.prod.yaml
+      - build
+
+  # 2
+  - name: docker/compose:1.29.0
+    args:
+      - -f
+      - main-project/backend/docker-compose.prod.yaml
+      - push
+
+  # 3
+  - name: gcr.io/cloud-builders/kubectl
+    args:
+      - set
+      - image
+      - deployment/my-main-project
+      - my-main-project-nestjs-sha256-1=asia.gcr.io/backend-377405/my-main-project-nestjs:1.5
+
+    # 환경변수 설정(클러스터 클라우드 쉘 입력 시 입력한 값들 설정하는 것)
+    # gcloud container clusters get-credentials autopilot-cluster-2 --region asia-northeast3 --project backend-377405
+    env:
+      - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
+      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-2

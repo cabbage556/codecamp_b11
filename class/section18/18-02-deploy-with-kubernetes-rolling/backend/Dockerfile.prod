@@ -1,0 +1,25 @@
+# 1. 운영체제 및 프로그램 설치 (하나씩 설치하는 방식)
+# FROM ubuntu:22.04
+
+# 우분투에 nodejs 설치
+# RUN sudo apt install nodejs
+
+# 우분투에 yarn 설치(글로벌 옵션)
+# RUN sudo npm install -g yarn
+
+FROM node:14
+
+COPY ./package.json /myfolder/
+COPY ./yarn.lock /myfolder/
+WORKDIR /myfolder/
+
+# dependencies만 설치하기
+RUN yarn install --production
+
+COPY . /myfolder/
+
+# dist 폴더 생성
+RUN yarn build
+
+# dist 폴더의 main.js 파일 실행
+CMD yarn start:prod

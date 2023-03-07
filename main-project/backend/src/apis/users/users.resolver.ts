@@ -22,6 +22,8 @@ export class UsersResolver {
 
   @Query(() => [User])
   fetchUsers(): Promise<User[]> {
+    console.log('JMeter 성능 확인');
+
     return this.usersService.find();
   }
 

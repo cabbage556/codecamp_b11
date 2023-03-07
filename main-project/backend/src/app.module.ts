@@ -14,6 +14,7 @@ import { ProductsModule } from './apis/products/products.module';
 import { SubCategoriesModule } from './apis/subCategories/subCategories.module';
 import { UsersModule } from './apis/users/users.module';
 import * as redisStore from 'cache-manager-redis-store';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -48,9 +49,12 @@ import * as redisStore from 'cache-manager-redis-store';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://my-redis:6379',
+      url: `redis://${process.env.REDIS_HOST}:6379`,
       isGlobal: true,
     }),
+  ],
+  controllers: [
+    AppController, // 헬스체커
   ],
 })
 export class AppModule {}

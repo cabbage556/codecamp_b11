@@ -1,0 +1,28 @@
+version: '3.7'
+
+# 컴퓨터들
+services:
+  # 컴퓨터이름
+  my-backend:
+    image: asia.gcr.io/backend-377405/my-backend-project-nestjs:1.1 # 이미지 업로드 주소/프로젝트ID/폴더명(자유롭게설정):배포버전(기존 버전과 다르게 해야함)
+    platform: linux/x86_64 # 빌드 시 사용한 cpu와 구글 클라우드 cpu가 다르면 에러 발생하므로 설정하는 옵션
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    # volumes:
+    #   # 볼륨 공유
+    #   - ./src:/myfolder/src
+    # ports:
+    #   - 4000:4000 # 포트포워딩
+    # env_file:
+    #   - ./.env.prod # 도커 실행 시 환경변수는 .env.docker를 사용함
+
+  # 컴퓨터이름(네임리졸루션)
+  # my-database:
+  #   # platform: linux/86_64
+  #   image: mysql:latest
+  #   environment: # MySQL 설치 시 초기 설정을 위한 곳
+  #     MYSQL_DATABASE: 'mydocker' # 컨테이너 실행 후 MySQL에 'mydocker' DB 생성됨
+  #     MYSQL_ROOT_PASSWORD: 'root' # 비밀번호 등록
+  #   ports:
+  #     - 3306:3306

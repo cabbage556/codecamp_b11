@@ -70,7 +70,7 @@ export class UsersService {
     const loginUser = await this.findOne({ id });
 
     if (!loginUser)
-      throw new UnprocessableEntityException('가입하지 않은 회원입니다.');
+      throw new UnprocessableEntityException('아직 가입하지 않은 회원입니다.');
 
     return loginUser;
   }
