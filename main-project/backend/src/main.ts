@@ -11,7 +11,7 @@ async function bootstrap() {
   app.use(graphqlUploadExpress());
   await app.listen(3000, () => {
     console.log(
-      '📌📌📌📌📌📌📌📌📌📌📌📌서버 시작📌📌📌📌📌📌📌📌📌📌📌📌📌📌📌',
+      '😃😃😃😃😃😃😃😃😃😃😃😃😃😃😃😃😃서버 시작😃😃😃😃😃😃😃😃😃😃😃😃😃😃😃😃😃',
     );
   });
 }
