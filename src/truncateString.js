@@ -39,7 +39,14 @@
 */
 
 function truncateString(str, limit) {
-  // 여기에서 작업하세요.
+  const answer = new Array(limit);
+  str = str.split(" ");
+
+  for (let i = 0; i < limit; i++) {
+    answer[i] = str[i];
+  }
+
+  return answer.join(" ");
 }
 
 module.exports = truncateString;

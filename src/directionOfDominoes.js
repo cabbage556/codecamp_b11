@@ -50,7 +50,62 @@
 */
 
 function directionOfDominoes(dominoes) {
-  // 여기에서 작업하세요.
+  const domino1 = [];
+  const domino2 = [];
+  let answer = "";
+
+  // R인 경우
+  for (let i = 0; i < dominoes.length; i++) {
+    if (dominoes[i] === ".") {
+      if (dominoes[i - 1] === "R") {
+        domino1.push("R");
+      } else {
+        domino1.push(".");
+      }
+    } else {
+      domino1.push(dominoes[i]);
+    }
+  }
+
+  // L인 경우
+  for (let i = dominoes.length - 1; i >= 0; i--) {
+    if (dominoes[i] === ".") {
+      if (dominoes[i + 1] === "L") {
+        domino2.unshift("L");
+      } else {
+        domino2.unshift(".");
+      }
+    } else {
+      domino2.unshift(dominoes[i]);
+    }
+  }
+
+  for (let i = 0; i < domino1.length; i++) {
+    if (domino1[i] === domino2[i]) {
+      answer += domino1[i];
+    } else {
+      if (domino1[i] === "L") {
+        if (domino2[i] === ".") {
+          answer += "L";
+        } else if (domino2[i] === "R") {
+          answer += ".";
+        }
+      } else if (domino1[i] === "R") {
+        if (domino2[i] === ".") {
+          answer += "R";
+        } else if (domino2[i] === "L") {
+          answer += ".";
+        }
+      } else if (domino1[i] === ".") {
+        if (domino2[i] === "R") {
+          answer += "R";
+        } else if (domino2[i] === "L") {
+          answer += "L";
+        }
+      }
+    }
+  }
+  return answer;
 }
 
 module.exports = directionOfDominoes;

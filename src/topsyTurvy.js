@@ -38,7 +38,18 @@
 */
 
 function topsyTurvy(str, arr) {
-  // 여기에서 작업하세요.
+  let answer = "";
+  const arrIndex = new Array(arr.length);
+
+  for (let i = 0; i < arr.length; i++) {
+    arrIndex[i] = arr.indexOf(i);
+  }
+
+  for (let i = 0; i < arrIndex.length; i++) {
+    answer += str[arrIndex[i]];
+  }
+
+  return answer;
 }
 
 module.exports = topsyTurvy;
