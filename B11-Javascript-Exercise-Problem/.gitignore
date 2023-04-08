@@ -1,0 +1,4 @@
+# 이 파일은 수정하시면 안됩니다
+node_modules
+.DS_Store
+yarn-lock
