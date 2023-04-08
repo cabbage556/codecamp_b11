@@ -1,6 +1,0 @@
-node_modules
-.env*
-.DS_Store
-mini-project
-.env.docker
-gcp-file-storage.json
