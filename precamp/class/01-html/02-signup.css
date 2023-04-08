@@ -1,0 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
+.pw {
+  border: 1px solid blue;
+}

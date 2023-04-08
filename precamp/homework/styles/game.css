@@ -1,0 +1,137 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.wrapper__header {
+  width: 100%;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header__title {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #55B2D4;
+}
+
+.subtitle {
+  font-size: 8px;
+  padding-left: 6px;
+}
+
+.header__divideLine {
+  width: 100%;
+  border-top: 1px solid gray;
+}
+
+.game__container {
+  width: 222px;
+  height: 168px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.game__title {
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.game__word {
+  font-weight: 700;
+  font-size: 10px;
+  color: #999999;
+}
+
+.game__input {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.word__input {
+  width: 136px;
+  height: 24px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+input::placeholder {
+  padding-left: 5px;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.word__search {
+  width: 38px;
+  height: 24px;
+  font-weight: 700;
+  font-size: 11px;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: white;
+}
+
+.game__result {
+  font-weight: 700;
+  font-size: 11px;
+  color: #999999;
+}
+
+.lotto__number__container {
+  width: 130px;
+  height: 21px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffe400;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 10px 0px;
+}
+
+.lotto__number {
+  font-weight: 700;
+  font-size: 10px;
+}
+
+.lotto__button {
+  width: 62px;
+  height: 24px;
+  font-weight: 700;
+  font-size: 11px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+}

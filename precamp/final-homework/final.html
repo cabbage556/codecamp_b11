@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>Final 과제: 회원가입 폼 만들기</title>
+  <link rel="stylesheet" href="./final.css">
+  <script src="./final.js"></script>
+</head>
+<body>
+  <div class="background">
+    <div class="wrapper">
+      <div class="wrapper__header">코드캠프 회원가입</div>
+      <div class="wrapper__body">
+        <div class="signUp__input__wrapper">
+          <input id="emailInput" type="text" placeholder="이메일을 입력해 주세요." class="signUp__input">
+          <div id="emailError" class="signUp__input__error">이메일이 올바르지 않습니다.</div>
+        </div>
+        <div class="signUp__input__wrapper">
+          <input id="nameInput" type="text" placeholder="이름을 입력해 주세요." class="signUp__input">
+          <div id="nameError" class="signUp__input__error">이름이 올바르지 않습니다.</div>
+        </div>
+        <div class="signUp__input__wrapper">
+          <input id="passwordInput1" type="password" placeholder="비밀번호를 입력해 주세요." class="signUp__input">
+          <div id="passwordError1" class="signUp__input__error">비밀번호를 입력해 주세요.</div>
+        </div>
+        <div class="signUp__input__wrapper">
+          <input id="passwordInput2" type="password" placeholder="비밀번호를 다시 입력해 주세요." class="signUp__input">
+          <div id="passwordError2" class="signUp__input__error">비밀번호를 입력해 주세요.</div>
+        </div>
+        <div class="phone__input__wrapper">
+          <input type="text" id="firstPhoneNum" class="phone__input" maxlength="3" oninput="changeFocusFirstToSecond()">
+          <span> - </span>
+          <input type="text" id="secondPhoneNum" class="phone__input" maxlength="4" oninput="changeFocusSecondToThird()">
+          <span> - </span>
+          <input type="text" id="thirdPhoneNum" class="phone__input" maxlength="4" oninput="activateTokenSendButton()">
+        </div>
+        <div class="auth__wrapper">
+          <span id="tokenText" class="auth__text">000000</span>
+          <button id="tokenSendButton" class="auth__button" disabled="true" onclick="startTimer()">인증번호 전송</button>
+        </div>
+        <div class="auth__wrapper">
+          <span id="timeText" class="auth__text">3:00</span>
+          <button id="authCompleteButton" class="auth__button" disabled="true" onclick="completeAuth()">인증확인</button>
+        </div>
+        <div class="select__wrapper">
+          <select id="regionSelect" class="region__select">
+            <option selected="true" disabled="true">지역을 선택하세요.</option>
+            <option class="select__option">서울</option>
+            <option class="select__option">인천</option>
+            <option class="select__option">경기</option>
+          </select>
+          <div id="regionError" class="signUp__input__error">지역을 선택해 주세요.</div>
+        </div>
+        <div class="gender__wrapper">
+          <div class="gender__input__wrapper">
+            <div class="gender">
+              <input id="genderWoman" type="radio" name="gender">
+              <span>여성</span>
+            </div>
+            <div class="gender">
+              <input id="genderMan" type="radio" name="gender">
+              <span>남성</span>
+            </div>
+          </div>
+          <div id="genderError" class="signUp__input__error">성별을 선택해 주세요.</div>
+        </div>
+        <div class="wrapper__divideLine"></div>
+      </div>
+      <div class="wrapper__footer">
+        <button id="signUp__button" class="signUp__button" disabled="true" onclick="checkInputs()">가입하기</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
