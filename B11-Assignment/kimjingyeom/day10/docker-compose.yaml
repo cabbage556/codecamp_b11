@@ -1,0 +1,21 @@
+version: "3.7"
+
+# 컴퓨터들
+services:
+  #컴퓨터이름
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./index.js:/myfolder/index.js
+      - ./phone.js:/myfolder/phone.js
+    ports:
+      - 3000:4000
+
+    # 컴퓨터이름
+  my-database:
+    image: mongo:5
+    # mongo:5 mongodb의 버전
+    ports:
+      - 27017:27017
