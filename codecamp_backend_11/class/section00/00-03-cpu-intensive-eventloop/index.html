@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>이벤트루프</title>
+    <script>
+      const oncClickLoop = () => {
+        console.log("onClickLoop 시작!");
+
+        setTimeout(() => {
+          console.log("0초 뒤에 실행합니다!");
+        }, 0);
+
+        // 오래 걸리는 계산 알고리즘이라고 가정
+        let sum = 0;
+        for (let i = 0; i < 9000000000; i++) {
+          sum += i;
+        }
+
+        console.log("onClickLoop 끝!");
+      };
+    </script>
+  </head>
+  <body>
+    <button onclick="oncClickLoop()">시작하기</button>
+  </body>
+</html>
