@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.sidebar {
+  /* background-color: red; */
+  width: 170px;
+  background-color: orange;
+  padding: 5px 15px;
+}
+
+.sidebar ul {
+  width: 100%;
+  padding: 0;
+}
+
+.sidebar ul li {
+  list-style: none;
+  padding: 5px 0;
+  color: #ffffff;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+.contents {
+  /* background-color: orange; */
+  width: calc(100% - 170px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 0 10px;
+}
+
+.item {
+  width: 24%;
+  height: 180px;
+  margin-bottom: 10px;
+  background-image: url("../img/dochi.png");
+  background-size: cover;
+}
